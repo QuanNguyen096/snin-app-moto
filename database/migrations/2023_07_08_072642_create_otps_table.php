@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('banners', function (Blueprint $table) {
+        Schema::create('otps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('image')->default('none');
-            $table->string('slug');
-            $table->string('note')->default('none');
-            $table->boolean('status')->default(true);
+            $table->string('email');
+            $table->string('otp');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('banner');
+        Schema::dropIfExists('otps');
     }
 };

@@ -12,10 +12,10 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-      <a href="{{ route('add.supplier') }}" class="btn btn-primary rounded-pill waves-effect waves-light">Add Supplier </a>
+      <a href="{{ route('add.supplier') }}" class="btn btn-primary rounded-pill waves-effect waves-light">+ </a>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">All Supplier</h4>
+                                    <h4 class="page-title">Nhà cung cấp</h4>
                                 </div>
                             </div>
                         </div>
@@ -31,10 +31,10 @@
                         <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>Image</th>
-                                <th>Name</th>
+                                <th>Hình ảnh</th>
+                                <th>Tên nhà cung cấp</th>
                                 <th>Email</th>
-                                <th>Phone</th>
+                                <th>Số điện thoại</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

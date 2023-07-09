@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -83,42 +84,83 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    // public function store(StoreUserRequest $request)
+    // {
+
+    //     try {
+
+    //         $validator = Validator::make($request->all(), [
+    //             'name' => 'required',
+    //             'email' => 'required|email|unique:users',
+    //             'password' => 'required',
+    //             'phone' => ['required', 'numeric', 'regex:/^(0[2-9]|(1[2-9]|3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9]))\d{7}$/'],
+    //             'c_password' => 'required|same:password',
+    //         ]);
+    //         if ($validator->fails()) {
+    //             return response()->json(['error' => $validator->errors()], 401);
+    //         }
+    //         $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
+    //         $path = public_path('storage/user');
+    //         Storage::disk('public')->put("/user/{$imageName}", file_get_contents($request->image));
+
+    //         User::create([
+    //             'name' => $request->name,
+    //             'image' => $imageName,
+    //             'gender' => $request->input('gender', 1),
+    //             'email' => $request->input('email'),
+    //             'phone' => $request->input('phone'),
+    //             'address' => $request->input('address'),
+    //             'password' => Hash::make($request->input('password')),
+    //         ]);
+    //         return response()->json([
+    //             'message' => 'create successful'
+    //         ], 200);
+    //     } catch (\Throwable $th) {
+    //         return response()->json([
+    //             'message' => 'Something went really wrong !'
+    //         ], 500);
+    //     }
+    // }
+    public function google(Request $request)
     {
+        $email = strtolower($request->input('email'));
 
-        try {
-            $validator = Validator::make($request->all(), [
-                'name' => 'required',
-                'email' => 'required|email|unique:users',
-                'password' => 'required',
-                'phone' => ['required', 'numeric', 'regex:/^(0[2-9]|(1[2-9]|3[2-9]|5[6|8|9]|7[0|6-9]|8[1-5]|9[0-9]))\d{7}$/'],
-                'c_password' => 'required|same:password',
-            ]);
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 401);
-            }
-            $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
-            $path = public_path('storage/user');
-            Storage::disk('public')->put("/user/{$imageName}", file_get_contents($request->image));
+        $user = User::where('email', $email)->first();
 
-            User::create([
-                'name' => $request->name,
-                'image' => $imageName,
-                'gender' => $request->input('gender', 1),
-                'email' => $request->input('email'),
-                'phone' => $request->input('phone'),
-                'address' => $request->input('address'),
-                'password' => Hash::make($request->input('password')),
-            ]);
+        if ($user) {
+            // Email đã tồn tại
+            $token = $user->createToken('authToken', ['expires_in' => 10])->plainTextToken;
             return response()->json([
-                'message' => 'create successful'
+                'status' => 200,
+                'token' => 'Bearer ' . $token,
+                'id user' => $user->id,
             ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'message' => 'Something went really wrong !'
-            ], 500);
+        } else {
+            // Email chưa tồn tại, tạo tài khoản mới
+            $newUser = User::create([
+                'name' => $request->input('name'),
+                'email' => $email,
+                'login' => 2
+                // Thêm các trường dữ liệu khác của người dùng nếu cần thiết
+            ]);
+
+            if ($newUser) {
+
+                $token = $newUser->createToken('authToken', ['expires_in' => 10])->plainTextToken;
+                return response()->json([
+                    'status' => 200,
+                    'token' => 'Bearer ' . $token,
+                    'id user' => $newUser->id,
+                ], 200);
+            } else {
+                return response()->json([
+                    'exists' => false,
+                    'message' => 'Failed to create a new account.',
+                ], 500);
+            }
         }
     }
+
 
 
     /**
@@ -128,6 +170,22 @@ class UserController extends Controller
     {
         //
     }
+    public function checkMail(Request $request)
+    {
+        // $user = DB::table('users')->where('email', $request->email)->first();
+        $type = DB::table('users')->where('login', 1)->where('email', $request->email)->first();
+
+        if ($type) { // Kiểm tra cả hai điều kiện
+            return response()->json([
+                'message' => 'Email tồn tại và login = 1',
+            ], 200);
+        }
+
+
+        return response()->json([
+            'message' => 'Email không tồn tại',
+        ], 404);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -136,7 +194,38 @@ class UserController extends Controller
     {
         //
     }
+    public function forgotPassword(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => 'required|email',
+                'password' => [
+                    'required',
+                    'confirmed',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+                ],
+            ]);
 
+            $user = DB::table('users')->where('email', $request->email)->first();
+
+            if ($user) {
+                $input['password'] = bcrypt($request->input('password'));
+                DB::table('users')->where('email', $request->email)->update($input);
+
+                return response()->json([
+                    'message' => 'Password updated successfully',
+                ], 200);
+            }
+
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'An error occurred: ' . $th->getMessage(),
+            ], 500);
+        }
+    }
     /**
      * Update the specified resource in storage.
      */
@@ -146,18 +235,29 @@ class UserController extends Controller
             $user = auth()->user();
             $user->name = $request->input('name', $user->name);
             // $user->email = $request->input('email', $user->email);
-            $user->phone = $request->input('phone', $user->phone);
+
+            // Kiểm tra và lưu số điện thoại nếu có
+            $phone = $request->input('phone');
+            if ($phone !== null) {
+                if (!preg_match('/^0\d{9}$/', $phone) || strlen($phone) !== 10) {
+                    return response()->json([
+                        'message' => 'Invalid phone number. Phone number should start with 0 and have exactly 10 digits.'
+                    ], 400);
+                }
+            }
+            $user->phone = $phone;
+
             $user->gender = $request->input('gender', $user->gender);
             $user->address = $request->input('address', $user->address);
 
             if ($request->hasFile('image')) {
-                $storege = Storage::disk('public');
+                $storage = Storage::disk('public');
 
-                if ($storege->exists($user->image)) {
-                    $storege->delete($user->image);
+                if ($storage->exists($user->image)) {
+                    $storage->delete($user->image);
                 }
                 $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
-                $storege->put("/user/{$imageName}", file_get_contents($request->image));
+                $storage->put("/user/{$imageName}", file_get_contents($request->image));
                 $user->image = $imageName;
             }
             $user->save();
@@ -175,10 +275,11 @@ class UserController extends Controller
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Something went really wrong !'
+                'message' => 'Something went really wrong!'
             ], 500);
         }
     }
+
 
 
     /**

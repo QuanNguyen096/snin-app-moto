@@ -15,7 +15,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            while (true) {
+                $expirationTime = Carbon::now()->subSeconds(60);
+                Otp::where('created_at', '<=', $expirationTime)->delete();
+                // Delay 1 giây trước khi tiếp tục vòng lặp
+                sleep(1);
+            }
+        })->everyMinute();
     }
 
     /**

@@ -19,7 +19,7 @@ class FavoriteController extends Controller
             ->paginate(20);
 
         $favorites->getCollection()->transform(function ($favorite) {
-            $favorite->image = Storage::url($favorite->image);
+            $favorite->image = Storage::url('product/'.$favorite->image);
             return $favorite;
         });
 

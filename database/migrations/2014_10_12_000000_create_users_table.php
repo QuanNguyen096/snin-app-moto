@@ -22,8 +22,9 @@ return new class extends Migration
             $table->string('phone', 10)->unique()->nullable();
             $table->string('address')->nullable();
             $table->String('score')->default('0');
+            $table->tinyInteger('login')->default(1);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

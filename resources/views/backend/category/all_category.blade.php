@@ -16,7 +16,7 @@
    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signup-modal">+</button>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Loại xe</h4>
+                                    <h4 class="page-title">Loại sản phẩm</h4>
                                 </div>
                             </div>
                         </div>
@@ -46,8 +46,8 @@
                 <td> <img src="{{ Storage::url('category/'.$item->image) }}" style="width:50px; height: 40px;"> </td>
                 <td>{{ $item->name }}</td>
                 <td>
-<a href="{{ route('edit.category',$item->id) }}" class="btn btn-blue rounded-pill waves-effect waves-light">Edit</a>
-<a href="{{ route('delete.category',$item->id) }}" class="btn btn-danger rounded-pill waves-effect waves-light" id="delete">Delete</a>
+<a href="{{ route('edit.category',$item->id) }}" class="btn btn-blue rounded-pill waves-effect waves-light"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+<a href="{{ route('delete.category',$item->id) }}" class="btn btn-danger rounded-pill waves-effect waves-light" id="delete"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
                 </td>
             </tr>
@@ -80,12 +80,12 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="username" class="form-label">Category Name</label>
+                        <label for="username" class="form-label">Tên loại sản phẩm</label>
                         <input class="form-control" type="text" name="category_name" placeholder="Add Category">
                     </div>
 
                     <div class="mb-3">
-                        <label for="photo" class="form-label">Image</label>
+                        <label for="photo" class="form-label">Hình ảnh</label>
                         <input type="file" name="photo" id="photo" class="form-control">
                     </div>
 
@@ -96,7 +96,7 @@
 
 
                     <div class="mb-3 text-center">
-                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                        <button class="btn btn-primary" type="submit">Lưu</button>
                     </div>
                 </form>
             </div>

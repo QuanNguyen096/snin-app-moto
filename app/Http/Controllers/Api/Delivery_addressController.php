@@ -28,17 +28,19 @@ class Delivery_addressController extends Controller
                 'idProvince' => $address->province->province_id,
                 'province' => $address->province->name,
                 'idDistrict' => $address->district->district_id,
-
                 'district' => $address->district->name,
                 'idWard' => $address->ward->wards_id,
-
                 'ward' => $address->ward->name,
             ];
             $formattedAddresses[] = $formattedAddress;
         }
 
+        // Sắp xếp mảng theo thời gian gần nhất
+        $formattedAddresses = collect($formattedAddresses)->sortByDesc('id')->values()->all();
+
         return response()->json(['data' => $formattedAddresses]);
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -12,7 +12,7 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-      <a href="{{ route('add.admin') }}" class="btn btn-primary rounded-pill waves-effect waves-light">Add Account </a>
+      <a href="{{ route('add.admin') }}" class="btn btn-primary rounded-pill waves-effect waves-light">+</a>
                                         </ol>
                                     </div>
                                     <h4 class="page-title">All Account <span class="btn btn-danger">{{ count($alladminuser) }}</span> </h4>
@@ -45,7 +45,7 @@
         	@foreach($alladminuser as $key=> $item)
             <tr>
                 <td>{{ $key+1 }}</td>
-                <td> <img src="{{ (!empty($item->photo)) ? url('upload/admin_image/'.$item->photo) : url('upload/no_image.jpg') }}" style="width:50px; height: 40px;"> </td>
+                <td> <img src="{{ (!empty($item->image)) ? Storage::url('user/'.$item->image) : url('upload/no_image.jpg') }}" style="width:50px; height: 40px;"> </td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->phone }}</td>

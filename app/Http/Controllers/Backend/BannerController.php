@@ -35,15 +35,14 @@ class BannerController extends Controller
         ]);
 
 
-        $image = $request->file('image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(300,300)->save('upload/banner/'.$name_gen);
-        $save_url = 'upload/banner/'.$name_gen;
+        $file = $request->file('image');
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('public/banner', $filename);
 
 
         Banner::insert([
-            'banner_name' => $request->name,
-            'images' => $save_url,
+            'name' => $request->name,
+            'image' => $filename,
             'slug' => $request->slug,
             'status' => $request->status,
             'created_at' => Carbon::now(),
@@ -70,19 +69,19 @@ class BannerController extends Controller
 
 
         $banner_id = $request->id;
-
+        $banner = Banner::find($banner_id);
 
         if ($request->file('image')) {
 
-            $image = $request->file('image');
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(300,300)->save('upload/banner/'.$name_gen);
-            $save_url = 'upload/banner/'.$name_gen;
+            $file = $request->file('image');
+            Storage::delete('public/banner/'.$banner->image);
+            $filename = $file->getClientOriginalName();
+            $file->storeAs('public/banner', $filename);
 
             Banner::findOrFail($banner_id)->update([
 
-                'banner_name' => $request->name,
-                'images' => $save_url,
+                'name' => $request->name,
+                'image' => $filename,
                 'slug' => $request->slug,
                 'status' => $request->status,
                 'created_at' => Carbon::now(),

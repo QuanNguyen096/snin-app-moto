@@ -13,11 +13,11 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Add Banner</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Thêm banner</a></li>
 
                         </ol>
                     </div>
-                    <h4 class="page-title">Add Banner</h4>
+                    <h4 class="page-title">Thêm banner</h4>
                 </div>
             </div>
         </div>
@@ -40,14 +40,14 @@
                             <form method="post" action="{{ route('banner.store') }}" enctype="multipart/form-data">
                                 @csrf
 
-                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Add Banner</h5>
+                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Thêm banner</h5>
 
                                 <div class="row">
 
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="firstname" class="form-label">Banner Name</label>
+                                            <label for="firstname" class="form-label">Tên banner</label>
                                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"   >
                                             @error('name')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -71,10 +71,10 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="status" class="form-label">Status</label>
+                                            <label for="status" class="form-label">Trạng thái</label>
                                             <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                                <option value="active" selected>Active</option>
-                                                <option value="deactivate">Deactivate</option>
+                                                <option value="1" selected>Active</option>
+                                                <option value="0">Deactivate</option>
                                             </select>
                                             @error('status')
                                             <span class="text-danger">{{ $message }}</span>
@@ -86,7 +86,7 @@
 
                                     <div class="col-md-12">
                                         <div class="mb-3">
-                                            <label for="example-fileinput" class="form-label">Image</label>
+                                            <label for="example-fileinput" class="form-label">Hình ảnh</label>
                                             <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
                                             @error('image')
                                             <span class="text-danger"> {{ $message }} </span>
@@ -110,7 +110,7 @@
 
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Lưu</button>
                                 </div>
                             </form>
                         </div>

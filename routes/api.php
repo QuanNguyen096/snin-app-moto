@@ -9,12 +9,14 @@ use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderDetailController;
+use App\Http\Controllers\Api\OtpController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WalletController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\TestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,8 +39,21 @@ Route::middleware(['auth'])->group(function () {
     // Các route cần authentication
 });
 
+
+//! Login and Register
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+//! Đăng ký tài khoảng
+// Route::post('dangky', [UserController::class, 'store']);
+Route::post('google', [UserController::class, 'google']);
+Route::post('forgotPassword', [UserController::class, 'forgotPassword']);
+Route::post('checkMail', [UserController::class, 'checkMail']);
+
+//! Otp
+Route::post('otp', [OtpController::class, 'addOtp']);
+Route::post('otp-check', [OtpController::class, 'checkOtp']);
+
+
 
 //! Location
 Route::get('provinces', [LocationController::class, 'getProvinces']);
@@ -53,13 +68,17 @@ Route::post('categories/{id}', [CategoryController::class, 'update']);
 Route::get('categories', [CategoryController::class, 'index']);
 
 
-Route::post('dangky', [UserController::class, 'store']);
+
+
+
 Route::post('tests', [TestController::class, 'store']);
 Route::get('tests', [TestController::class, 'index']);
 
 
 Route::post('products', [ProductController::class, 'store']);
 Route::get('products', [ProductController::class, 'index']);
+Route::get('products/appsearch', [ProductController::class, 'search']);
+
 Route::get('products/{id}', [ProductController::class, 'show']);
 Route::post('getProductById', [ProductController::class, 'showDataById']);
 
@@ -103,6 +122,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('carts/{id}', [CartController::class, 'updateQuantity']);
     Route::get('carts/{id}', [CartController::class, 'show']);
 
+    //! Wallet
+    Route::post('wallets/create', [WalletController::class, 'createWallet']);
+    Route::post('wallet/deposit', [WalletController::class, 'deposit']);
+
+    Route::post('wallet/withdraw', [WalletController::class, 'withdraw']);
+
+
+
     //! Order
     Route::get('orderstatus/{status}', [OrderController::class, 'getOrdersByStatus']);
 
@@ -118,11 +145,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('orderDetails', [OrderDetailController::class, 'getOrderDetails']);
 
 
-    //! Booking
+    //! Booking 
     Route::post('bookings', [BookingController::class, 'createBooking']);
     Route::get('bookings', [BookingController::class, 'index']);
-    Route::put('bookings/{id}', [BookingController::class, 'update']);
-    Route::put('bookings/{id}/status', [BookingController::class, 'updateBookingStatus'])->name('bookings.update.status');
+    Route::post('bookings/{id}', [BookingController::class, 'update']);
+    Route::post('bookings/{id}/status', [BookingController::class, 'updateBookingStatus'])->name('bookings.update.status');
 
 
     Route::get('favorites', [FavoriteController::class, 'index']);
@@ -130,7 +157,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('favorites/{id}', [FavoriteController::class, 'update']);
     Route::delete('favorites/{id}', [FavoriteController::class, 'destroy']);
 
+
+    //! User
     Route::get('dangky', [UserController::class, 'getUserInfo']);
+
     Route::post('dangky-up', [UserController::class, 'update']);
 
     Route::post('updateScore', [UserController::class, 'updateScore']);

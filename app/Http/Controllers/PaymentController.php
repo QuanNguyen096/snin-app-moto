@@ -14,29 +14,11 @@ class PaymentController extends Controller
 {
     public function stripe_checkout(Request $request) {
 
-
-        if ($request->customer_id == 1) {
-            $customerId = Customer::insertGetId([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'created_at' => Carbon::now(),
-            ]);
-            // Sử dụng $customerId để lưu id của khách hàng mới được tạo
-        }
-
-
         $rtotal = $request->total;
         $rpay = $request->pay;
         $mtotal = $rtotal - $rpay;
 
-        $data = array();
-        if ($request->customer_id == 1){
-            $data['customer_id'] = $customerId;
-        } else {
-            $data['customer_id'] = $request->customer_id;
-        }
+        $data['customer_id'] = $request->customer_id;
         if($request->order_status = 'pending') {
             $data['status'] = 2;
         }
@@ -213,41 +195,26 @@ class PaymentController extends Controller
 
     public function momo_qr_payment(Request $request)
     {
-        if ($request->customer_id == 1) {
-            $customerId = Customer::insertGetId([
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'address' => $request->address,
-                'created_at' => Carbon::now(),
-            ]);
-            // Sử dụng $customerId để lưu id của khách hàng mới được tạo
-        }
+       
 
 
         $rtotal = $request->total;
         $rpay = $request->pay;
         $mtotal = $rtotal - $rpay;
 
-        $data = array();
-        if ($request->customer_id == 1){
-            $data['customer_id'] = $customerId;
-        } else {
-            $data['customer_id'] = $request->customer_id;
+        $data['customer_id'] = $request->customer_id;
+        if($request->order_status = 'pending') {
+            $data['status'] = 3;
         }
-        $data['order_date'] = $request->order_date;
-        $data['order_status'] = $request->order_status;
         $data['total_products'] = $request->total_products;
         $data['sub_total'] = $request->sub_total;
         $data['vat'] = $request->vat;
-
+        $data['address'] = $request->address;
         $data['invoice_no'] = $request->order_id;
-        $data['total'] = $request->total;
-        $data['payment_status'] = "Momo QR";
-        $data['pay'] = $request->pay;
+        $data['total_price'] = $request->total;
+        $data['payment'] = 2;
         $data['discount_code'] = session('discount');
         $data['discount'] = $request->discount;
-        $data['due'] = $mtotal;
         $data['created_at'] = Carbon::now();
 
         $order_id = Order::insertGetId($data);
@@ -258,10 +225,9 @@ class PaymentController extends Controller
             $pdata['order_id'] = $order_id;
             $pdata['product_id'] = $content->id;
             $pdata['quantity'] = $content->qty;
-            $pdata['unitcost'] = $content->price;
-            $pdata['total'] = $content->total;
+            $pdata['price'] = $content->total;
 
-            $insert = Orderdetails::insert($pdata);
+            $insert = Order_details::insert($pdata);
 
         } // end foreach
 
@@ -271,6 +237,9 @@ class PaymentController extends Controller
             'alert-type' => 'success'
         );
 
+        $currenturl = url()->current();
+
+        $baseUrl = url('/');
 
         function execPostRequest($url, $data)
         {
@@ -300,8 +269,8 @@ class PaymentController extends Controller
         $orderInfo = "Thanh toán qua MoMo";
         $amount = $_POST["total"];
         $orderId = $_POST["order_id"];
-        $redirectUrl = "http://127.0.0.1:8000/order_momo_complete";
-        $ipnUrl = "http://127.0.0.1:8000/order_momo_complete";
+        $redirectUrl = "${baseUrl}/order_momo_complete";
+        $ipnUrl = "${baseUrl}/order_momo_complete";
         $extraData = "";
 
 

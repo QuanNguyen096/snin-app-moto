@@ -49,7 +49,9 @@ class ProductController extends Controller
    } // End Method
 
    public function AddProduct(){
-       $pcode = IdGenerator::generate(['table' => 'products','field' => 'product_code','length' => 4, 'prefix' => 'PC' ]);
+    $productCount = Product::count();
+    $nextNumber = $productCount + 1;
+    $pcode = 'PC' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
     $category = Category::latest()->get();
     $supplier = Supplier::latest()->get();
     return view('backend.product.add_product',compact('category','supplier','pcode'));
@@ -58,7 +60,9 @@ class ProductController extends Controller
 
  public function StoreProduct(Request $request){
 
-     $pcode = IdGenerator::generate(['table' => 'products','field' => 'product_code','length' => 4, 'prefix' => 'PC' ]);
+    $productCount = Product::count();
+    $nextNumber = $productCount + 1;
+    $pcode = 'PC' . str_pad($nextNumber, 4, '0', STR_PAD_LEFT);
      $file = $request->file('product_image');
      $filename = $file->getClientOriginalName();
      $file->storeAs('public/product', $filename);

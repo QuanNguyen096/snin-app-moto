@@ -32,6 +32,18 @@ class OrderController extends Controller
 
         return redirect()->back()->with($notification);
     }
+    public function order_check($order_id) {
+        $order = Order::find($order_id);
+
+        $order->status = 4;
+        $order->save();
+        $notification = array(
+            'message' => 'Thành công!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 
     public function order_stripe_complete(Request $request) {
 

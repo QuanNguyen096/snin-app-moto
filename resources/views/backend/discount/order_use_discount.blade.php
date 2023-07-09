@@ -34,7 +34,7 @@
                                 <div class="col-md-3 mb-3">
                                     <label for="discount-code" class="form-label">Mã giảm giá</label>
                                     <select class="form-select" id="discount-code" name="discount_code">
-                                        <option value="">Chọn mã giảm giá</option>
+                                        <option value="">Chọn mô tả mã giảm giá</option>
                                         <?php foreach ($discount_code as $discount): ?>
                                             <option value="<?= $discount['discount_code'] ?>"><?= $discount['short_description'] ?></option>
                                         <?php endforeach; ?>
@@ -55,13 +55,13 @@
                             <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Order Date</th>
-                                <th>Discount Code</th>
-                                <th>Invoice</th>
-                                <th>Pay</th>
-                                <th>Status</th>
+                                <th>Hình ảnh</th>
+                                <th>Tên</th>
+                                <th>Ngày tạo hóa đơn</th>
+                                <th>Mã giảm giá</th>
+                                <th>Mã hóa đơn</th>
+                                <th>Số tiền</th>
+                                <th>Trạng thái</th>
                             </tr>
                             </thead>
 
@@ -70,13 +70,15 @@
                             @foreach($orders as $key => $item)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td><img src="{{ asset($item->customer->image) }}" style="width:50px; height: 40px;"></td>
+                                <td><img src="{{ Storage::url('public/customer/'.$item->customer->image) }}" style="width:50px; height: 40px;"></td>
                                 <td>{{ $item['customer']['name'] }}</td>
-                                <td>{{ $item->order_date }}</td>
+                                <td>{{ $item->created_at }}</td>
                                 <td>{{ $item->discount_code }}</td>
                                 <td>{{ $item->invoice_no }}</td>
-                                <td>{{ $item->pay }}</td>
-                                <td><span class="badge bg-success">{{ $item->order_status }}</span></td>
+                                <td>{{ $item->total_price }}</td>
+                                @if($item->status == 4)
+                <td> <span class="badge bg-success">Thành công</span> </td>
+                @endif
                             </tr>
                             @endforeach
                             </tbody>

@@ -13,10 +13,10 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <a href="{{ route('add.banner') }}" class="btn btn-primary rounded-pill waves-effect waves-light">Add Banner </a>
+                            <a href="{{ route('add.banner') }}" class="btn btn-primary rounded-pill waves-effect waves-light">+ </a>
                         </ol>
                     </div>
-                    <h4 class="page-title">All Banner</h4>
+                    <h4 class="page-title">Banner</h4>
                 </div>
             </div>
         </div>
@@ -32,9 +32,9 @@
                             <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Status</th>
+                                <th>Hình ảnh</th>
+                                <th>Tên banner</th>
+                                <th>Trạng thái</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -44,12 +44,12 @@
                             @foreach($banner as $key=> $item)
                             <tr>
                                 <td>{{ $key+1 }}</td>
-                                <td> <img src="{{ asset($item->images) }}" style="width:50px; height: 40px;"> </td>
-                                <td>{{ $item->banner_name }}</td>
-                                @if($item->status == 'active')
-                                    <td><span class="badge bg-success">Active</span></td>
+                                <td> <img src="{{ Storage::url('banner/'.$item->image) }}" style="width:50px; height: 40px;"> </td>
+                                <td>{{ $item->name }}</td>
+                                @if($item->status == 1)
+                                    <td><span class="badge bg-success">Hoạt động</span></td>
                                 @else
-                                    <td><span class="badge bg-danger">Deactivate</span></td>
+                                    <td><span class="badge bg-danger">Không hoạt động</span></td>
                                 @endif
                                 <td>
                                     <a href="{{ route('edit.banner',$item->id) }}" class="btn btn-blue rounded-pill waves-effect waves-light">Edit</a>

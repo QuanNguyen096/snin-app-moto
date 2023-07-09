@@ -13,11 +13,11 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Edit Supplier</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Chỉnh sửa nhà cung cấp</a></li>
 
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Edit Supplier</h4>
+                                    <h4 class="page-title">Chỉnh sửa nhà cung cấp</h4>
                                 </div>
                             </div>
                         </div>
@@ -42,14 +42,14 @@
 
            <input type="hidden" name="id" value="{{ $supplier->id }}">
 
-            <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Edit Supplier</h5>
+            <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Chỉnh sửa nhà cung cấp</h5>
 
             <div class="row">
 
 
     <div class="col-md-6">
         <div class="mb-3">
-            <label for="firstname" class="form-label">Supplier Name</label>
+            <label for="firstname" class="form-label">Tên nhà cung cấp</label>
             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ $supplier->name }}"  >
              @error('name')
       <span class="text-danger"> {{ $message }} </span>
@@ -60,7 +60,7 @@
 
               <div class="col-md-6">
         <div class="mb-3">
-            <label for="firstname" class="form-label">Supplier Email</label>
+            <label for="firstname" class="form-label">Email</label>
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ $supplier->email }}"   >
              @error('email')
       <span class="text-danger"> {{ $message }} </span>
@@ -73,7 +73,7 @@
 
               <div class="col-md-6">
         <div class="mb-3">
-            <label for="firstname" class="form-label">Supplier Phone    </label>
+            <label for="firstname" class="form-label">Số điện thoại </label>
             <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"  value="{{ $supplier->phone }}"  >
              @error('phone')
       <span class="text-danger"> {{ $message }} </span>
@@ -84,7 +84,7 @@
 
       <div class="col-md-6">
         <div class="mb-3">
-            <label for="firstname" class="form-label">Supplier Address    </label>
+            <label for="firstname" class="form-label">Địa chỉ   </label>
             <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"  value="{{ $supplier->address }}"  >
              @error('address')
       <span class="text-danger"> {{ $message }} </span>
@@ -97,7 +97,7 @@
 
    <div class="col-md-12">
 <div class="mb-3">
-        <label for="example-fileinput" class="form-label">Supplier Image</label>
+        <label for="example-fileinput" class="form-label">Hình ảnh</label>
         <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
           @error('image')
       <span class="text-danger"> {{ $message }} </span>

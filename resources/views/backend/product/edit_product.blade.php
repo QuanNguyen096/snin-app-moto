@@ -13,11 +13,11 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Edit Product</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Chỉnh sửa sản phẩm</a></li>
 
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">Edit Product</h4>
+                                    <h4 class="page-title">Chỉnh sửa sản phẩm</h4>
                                 </div>
                             </div>
                         </div>
@@ -42,14 +42,14 @@
 
             <input type="hidden" name="id" value="{{ $product->id }}">
 
-            <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Edit Product</h5>
+            <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Chỉnh sửa sản phẩm</h5>
 
             <div class="row">
 
 
     <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="firstname" class="form-label">Product Name</label>
+            <label for="firstname" class="form-label">Tên sản phẩm</label>
             <input type="text" name="product_name" class="form-control" value="{{ $product->name }}"   >
 
         </div>
@@ -58,7 +58,7 @@
 
               <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="firstname" class="form-label">Loại xe </label>
+            <label for="firstname" class="form-label">Loại sản phẩm </label>
             <select name="category_id" class="form-select" id="example-select">
                     <option selected disabled >Select Category </option>
                     @foreach($category as $cat)
@@ -71,7 +71,7 @@
 
           <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="firstname" class="form-label">Supplier </label>
+            <label for="firstname" class="form-label">Nhà cung cấp </label>
             <select name="supplier_id" class="form-select" id="example-select">
                     <option selected disabled >Select Supplier </option>
                     @foreach($supplier as $sup)
@@ -87,14 +87,14 @@
 
               <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="firstname" class="form-label">Product Code    </label>
+            <label for="firstname" class="form-label">Mã sản phẩm    </label>
             <input type="text" name="product_code" class="form-control "  value="{{ $product->product_code }}"  disabled >
 
            </div>
         </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="firstname" class="form-label">Quantity    </label>
+                        <label for="firstname" class="form-label">Số lượng    </label>
                         <input type="text" name="product_garage" class="form-control " value="{{ $product->number }}">
 
                     </div>
@@ -103,7 +103,7 @@
 
               <div class="col-md-6">
         <div class="form-group mb-3">
-            <label for="firstname" class="form-label">Price    </label>
+            <label for="firstname" class="form-label">Giá    </label>
             <input type="text" name="price" class="form-control "  value="{{ $product->price }}"   >
 
            </div>
@@ -119,7 +119,7 @@
 
    <div class="col-md-12">
 <div class="form-group mb-3">
-        <label for="example-fileinput" class="form-label">Customer Image</label>
+        <label for="example-fileinput" class="form-label">Hình ảnh</label>
         <input type="file" name="product_image" id="image" class="form-control">
 
     </div>
@@ -141,7 +141,7 @@
 
 
             <div class="text-end">
-                <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Lưu</button>
             </div>
         </form>
     </div>

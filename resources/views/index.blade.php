@@ -20,7 +20,7 @@
                                     <div class="page-title-right">
 
                                     </div>
-                                    <h4 class="page-title">Dashboard</h4>
+                                    <h4 class="page-title">Trang chủ</h4>
                                 </div>
                             </div>
                         </div>
@@ -177,8 +177,8 @@
                                             <table class="table table-borderless table-nowrap table-hover table-centered m-0">
                                                 <thead class="table-light">
                                                 <tr>
-                                                    <th>Product</th>
-                                                    <th>Quantity</th>
+                                                    <th>Sản phẩm</th>
+                                                    <th>Số lượng</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>

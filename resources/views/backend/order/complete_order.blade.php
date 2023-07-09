@@ -40,7 +40,7 @@
                                 <th>Mã hóa đơn</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
-                                <th>Duyệt đơn hàng</th>
+                                <th>Đơn hàng</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -60,12 +60,19 @@
                 <td> <span class="badge bg-danger">Chưa duyệt</span> </td>
                 @elseif($item->status == 3)
                 <td> <span class="badge bg-success">Đã duyệt</span> </td>
+                @elseif($item->status == 4)
+                <td> <span class="badge bg-success">Thành công</span> </td>
                 @endif
                 <td>
                     @if($item->status == 1)
                     <form method="post" action="{{ route('order.browsing',$item->id) }}">
                         @csrf
                         <button type="submit" class="btn btn-primary" name="approve">Duyệt đơn hàng</button>
+                    </form>
+                    @elseif($item->status == 3)
+                    <form method="post" action="{{ route('order.check',$item->id) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary" name="approve">Giao hàng thành công</button>
                     </form>
                     @endif
                 </td>

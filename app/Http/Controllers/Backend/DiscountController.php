@@ -21,12 +21,12 @@ class DiscountController extends Controller
     {
         $discountCode = $request->input('discount_code');
 
-        $orders = Order::where('order_status', 'complete')
+        $orders = Order::where('status', 4)
             ->when($discountCode, function ($query) use ($discountCode) {
                 return $query->where('discount_code', $discountCode);
             })
+            ->whereNotNull('discount_code')
             ->get();
-
 
         return view('backend.discount.order_use_discount', compact('orders'));
     }

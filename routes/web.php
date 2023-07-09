@@ -278,6 +278,7 @@ Route::controller(OrderController::class)->group(function(){
  Route::get('/stock','StockManage')->name('stock.manage');
  Route::get('/order/invoice-download/{order_id}','OrderInvoice');
  Route::post('/order_browsing/{order_id}','order_browsing')->name('order.browsing');
+ Route::post('/order_check/{order_id}','order_check')->name('order.check');
 
  //// Due All Route
 

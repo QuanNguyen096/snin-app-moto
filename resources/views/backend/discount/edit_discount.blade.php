@@ -150,7 +150,7 @@
                                     @endphp
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="firstname" class="form-label">Discount BarCode</label>
+                                            <label for="firstname" class="form-label">Mã BarCode</label>
                                             <h3> {!! $generator->getBarcode($discount->discount_code,$generator::TYPE_CODE_128)  !!} </h3>
                                         </div>
                                     </div>
@@ -161,7 +161,7 @@
 
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Lưu</button>
                                 </div>
                             </form>
                         </div>

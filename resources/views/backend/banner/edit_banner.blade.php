@@ -13,11 +13,11 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Edit Banner</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Chỉnh sửa Banner</a></li>
 
                         </ol>
                     </div>
-                    <h4 class="page-title">Edit Banner</h4>
+                    <h4 class="page-title">Chỉnh sửa Banner</h4>
                 </div>
             </div>
         </div>
@@ -42,15 +42,15 @@
 
                                 <input type="hidden" name="id" value="{{ $banner->id }}">
 
-                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Edit Banner</h5>
+                                <h5 class="mb-4 text-uppercase"><i class="mdi mdi-account-circle me-1"></i> Chỉnh sửa Banner</h5>
 
                                 <div class="row">
 
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="firstname" class="form-label">Banner Name</label>
-                                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$banner->banner_name}}"   >
+                                            <label for="firstname" class="form-label">Tên banner</label>
+                                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$banner->name}}"   >
                                             @error('name')
                                             <span class="text-danger"> {{ $message }} </span>
                                             @enderror
@@ -75,10 +75,10 @@
 
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="status" class="form-label">Status</label>
+                                            <label for="status" class="form-label">Trạng thái</label>
                                             <select name="status" class="form-select @error('status') is-invalid @enderror">
-                                                <option value="active" {{ $banner->status === 'active' ? 'selected' : '' }}>Active</option>
-                                                <option value="deactivate" {{ $banner->status === 'deactivate' ? 'selected' : '' }}>Deactivate</option>
+                                                <option value="active" {{ $banner->status === 1 ? 'selected' : '' }}>Active</option>
+                                                <option value="deactivate" {{ $banner->status === 0 ? 'selected' : '' }}>Deactivate</option>
                                             </select>
                                             @error('status')
                                             <span class="text-danger">{{ $message }}</span>
@@ -103,7 +103,7 @@
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="example-fileinput" class="form-label"> </label>
-                                            <img id="showImage" src="{{ asset($banner->images) }}" class="rounded-circle avatar-lg img-thumbnail"
+                                            <img id="showImage" src="{{ Storage::url('banner/'. $banner->image) }}" class="rounded-circle avatar-lg img-thumbnail"
                                                  alt="profile-image">
                                         </div>
                                     </div> <!-- end col -->
@@ -115,7 +115,7 @@
 
 
                                 <div class="text-end">
-                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Save</button>
+                                    <button type="submit" class="btn btn-success waves-effect waves-light mt-2"><i class="mdi mdi-content-save"></i> Lưu</button>
                                 </div>
                             </form>
                         </div>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Order_details;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -66,7 +66,7 @@ class OrderController extends Controller
         // if ($order->status == 2) {
         //     return response()->json(['message' => 'Không tìm thấy đơn hàng'], 404);
         // }
-        $lsData = Order_details::where('order_id', $orderId)->get();
+        $lsData = OrderDetail::where('order_id', $orderId)->get();
 
         // return response()->json(['message' => $orderDetails], 404);
         try {
@@ -115,7 +115,7 @@ class OrderController extends Controller
 
             // Load product information for each order
             $userOrders->getCollection()->transform(function ($order) {
-                $orderDetails = Order_details::where('order_id', $order->id)->get();
+                $orderDetails = OrderDetail::where('order_id', $order->id)->get();
 
                 // Load detailed information for each product
                 $orderDetails->transform(function ($orderDetail) {
@@ -148,7 +148,7 @@ class OrderController extends Controller
 
     public function getOrdersByStatus($status)
     {
-        $orderDetails = Order_details::with('order', 'order.product')
+        $orderDetails = OrderDetail::with('order', 'order.product')
             ->whereHas('order', function ($query) use ($status) {
                 $query->where('status', $status)
                     ->where('user_id', auth()->user()->id);

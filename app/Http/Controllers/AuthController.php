@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,24 +14,41 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
+            'email' => 'required|email',
+            // 'password' => 'required',
+            'password' => [
+                'required',
+                'min:8',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ],
             'c_password' => 'required|same:password',
         ]);
+
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 401);
         }
+
         $input = $request->all();
         $input['email'] = strtolower($input['email']);
         $input['password'] = bcrypt($input['password']);
+        $input['login'] = 1;
+
+        $existingUser = User::where('email', $input['email'])->first();
+
+        if ($existingUser) {
+            if ($existingUser->login == 2) {
+                // Thực hiện cập nhật dữ liệu người dùng
+                $existingUser->update($input);
+                return response()->json(['status' => 200, 'message' => 'Cập nhật thành công'], 200);
+            } else {
+                return response()->json(['status' => 400, 'message' => 'Tài khoản đã tồn tại'], 400);
+            }
+        }
+
+        // Tạo người dùng mới
         $user = User::create($input);
-        // $success['token'] = $user->createToken('MyApp')->accessToken;
-        // $success['name'] = $user->name;
 
-        // return response()->json(['success' => $success], 200);
-        $customer = Customer::create();
-
-        return response()->json(['status' => 200, 'message' => 'Register successful'], 200);
+        return response()->json(['status' => 200, 'message' => 'Đăng ký thành công'], 200);
     }
 
     public function login(Request $request)

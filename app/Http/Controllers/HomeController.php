@@ -38,15 +38,15 @@ class HomeController extends Controller
         }
 
         $fromDate = $year . '-01-01';
-        $toDate = $year . '-12-31';
+        $toDate = $year . '-12-41';
 
         $today_paid = Order::where('created_at', $fromDate)
-            ->where('status', 3)
+            ->where('status', 4)
             ->sum('total_price');
 
         $total_protuct = Product::select('*')->get();
 
-        $completeorder = Order::where('status', 3)->get();
+        $completeorder = Order::where('status', 4)->get();
 
         $pendingorder = Customer::select('*')->get();
 
@@ -55,10 +55,10 @@ class HomeController extends Controller
         $today = Carbon::now()->format('d-F-Y');
 
         $totalPaid = Order::sum('total_price');
-        $completeOrders = Order::where('status', 3)->get();
+        $completeOrders = Order::where('status', 4)->get();
 
         $orders = Order::selectRaw('MONTH(orders.created_at) AS month, COUNT(*) AS order_count, SUM(orders.total_price) AS total, SUM(orders.total_products) AS product_count')
-            ->where('orders.status', 3)
+            ->where('orders.status', 4)
             ->whereYear('orders.created_at', $year) // Thêm điều kiện năm
             ->groupBy('month')
             ->get();
@@ -96,7 +96,7 @@ class HomeController extends Controller
         $topProducts = Order_details::select('products.name', DB::raw('SUM(order_details.quantity) as total_quantity'))
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
-            ->where('orders.status', 3)
+            ->where('orders.status', 4)
             ->whereYear('orders.created_at', $year) // Lọc theo năm được truyền vào
             ->groupBy('products.name')
             ->orderByDesc('total_quantity')

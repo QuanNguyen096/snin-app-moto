@@ -14,7 +14,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         //
-        Category::create(['name' => 'Tất cả', 'image' => 'maintenance.png']);
+        Category::create(['name' => 'Tất cả', 'image' => 'tatca.png']);
         Category::create(['name' => 'đồ chơi', 'image' => 'maintenance.png']);
         Category::create(['name' => 'phụ tùng', 'image' => 'motorcycle.png']);
         Category::create(['name' => 'vỏ xe', 'image' => 'racing.png']);

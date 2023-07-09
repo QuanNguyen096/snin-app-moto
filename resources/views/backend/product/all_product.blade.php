@@ -13,15 +13,15 @@
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
 
-   <a href="{{ route('import.product') }}" class="btn btn-info rounded-pill waves-effect waves-light">Import </a>
+   <!-- <a href="{{ route('import.product') }}" class="btn btn-info rounded-pill waves-effect waves-light">Import </a>
    &nbsp;&nbsp;&nbsp;
    <a href="{{ route('export') }}" class="btn btn-danger rounded-pill waves-effect waves-light">Export </a>
-   &nbsp;&nbsp;&nbsp;
+   &nbsp;&nbsp;&nbsp; -->
 
-      <a href="{{ route('add.product') }}" class="btn btn-primary rounded-pill waves-effect waves-light">Add Product </a>
+      <a href="{{ route('add.product') }}" class="btn btn-primary rounded-pill waves-effect waves-light">+</a>
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">All Product</h4>
+                                    <h4 class="page-title">Sản phẩm</h4>
                                 </div>
                             </div>
                         </div>

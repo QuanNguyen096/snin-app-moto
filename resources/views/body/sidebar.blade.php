@@ -15,7 +15,7 @@
           <li>
             <a href="{{ url('/dashboard') }}">
                <i class="mdi mdi-view-dashboard-outline"></i>
-                <span> Dashboards </span>
+                <span> Trang chủ </span>
             </a>
         </li>
 
@@ -28,15 +28,6 @@
             </a>
         </li>
         @endif
-
-                            @if(Auth::user()->can('garage.menu'))
-                            <li>
-                                <a href="{{ route('all.garage') }}">
-                                    <i class="fas fa-car"></i>
-                                    <span> Garage </span>
-                                </a>
-                            </li>
-                            @endif
 
 
 
@@ -114,9 +105,11 @@
                                             <a href="{{ route('all.customer') }}">Khách hàng</a>
                                         </li>
                                         @endif
+                                        @if(Auth::user()->can('supplier.all'))
                                         <li>
-                                            <a href="{{ route('all.supplier') }}">Hãng xe</a>
+                                            <a href="{{ route('all.supplier') }}">Nhà cung cấp</a>
                                         </li>
+                                        @endif
                                     </ul>
 
                                 </div>
