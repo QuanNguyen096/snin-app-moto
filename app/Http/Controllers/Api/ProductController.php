@@ -63,7 +63,7 @@ class ProductController extends Controller
                 ->paginate(20);
 
             $products->getCollection()->transform(function ($product) {
-                $product->image = Storage::url('product/'.$product->image);
+                $product->image = Storage::url('product/' . $product->image);
                 $product->love = $product->favorites->isNotEmpty() ? 1 : 0;
                 unset($product->favorites);
                 return $product;
@@ -161,10 +161,9 @@ class ProductController extends Controller
                 ->paginate(20);
 
             $products->getCollection()->transform(function ($product) {
-                $product->image = Storage::url('product/'.$product->image);
+                $product->image = Storage::url('product/' . $product->image);
                 return $product;
             });
-
             return response()->json([
                 'data' => $products->items(),
                 'total_pages' => $products->lastPage(),
@@ -218,7 +217,7 @@ class ProductController extends Controller
                 ->get();
 
             $products->transform(function ($product) {
-                $product->image = Storage::url('product/'.$product->image);
+                $product->image = Storage::url('product/' . $product->image);
                 return $product;
             });
 
@@ -241,27 +240,27 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
-    {
-        //
-        try {
-            $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
-            Product::create([
-                'name' => $request->name,
-                'image' => $imageName,
-                'description' => $request->description, 'number' => $request->number,
-                'price' => $request->price,
-                'like' => $request->like
-            ]);
-            Storage::disk('public')->put($imageName, file_get_contents($request->image));
-            return response()->json(['message' => 'create successful'], 200);
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json([
-                'message' => "Something went really wrong!"
-            ], 500);
-        }
-    }
+    // public function store(StoreProductRequest $request)
+    // {
+    //     //
+    //     try {
+    //         $imageName = Str::random(32) . "." . $request->image->getClientOriginalExtension();
+    //         Product::create([
+    //             'name' => $request->name,
+    //             'image' => $imageName,
+    //             'description' => $request->description, 'number' => $request->number,
+    //             'price' => $request->price,
+    //             'like' => $request->like
+    //         ]);
+    //         Storage::disk('public')->put($imageName, file_get_contents($request->image));
+    //         return response()->json(['message' => 'create successful'], 200);
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //         return response()->json([
+    //             'message' => "Something went really wrong!"
+    //         ], 500);
+    //     }
+    // }
 
     /**
      * Display the specified resource.
@@ -280,7 +279,7 @@ class ProductController extends Controller
                 ], 404);
             }
 
-            $product->image = Storage::url('product/'.$product->image);
+            $product->image = Storage::url('product/' . $product->image);
 
             return response()->json([
                 'data' => $product
@@ -308,7 +307,7 @@ class ProductController extends Controller
             }
 
             $products->transform(function ($product) {
-                $product->image = Storage::url('product/'.$product->image);
+                $product->image = Storage::url('product/' . $product->image);
                 return $product;
             });
 

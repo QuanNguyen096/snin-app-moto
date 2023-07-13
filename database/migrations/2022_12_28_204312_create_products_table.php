@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('supplier_id');
             $table->string('name');
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('price')->default(rand(50, 300) * 1000);
             $table->integer("like")->default(rand(0, 9999));
             $table->boolean('status')->default(true);
-            $table->string('product_code');
             $table->timestamps();
 
             // Thêm khóa ngoại category_id

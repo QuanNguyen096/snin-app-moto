@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->integer('customer_id');
             $table->integer('user_id')->nullable();
             $table->tinyInteger('status')->default(1);
@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('total_products');
             $table->string('sub_total')->nullable();
             $table->string('vat')->nullable();
-            $table->string('invoice_no')->nullable();
             $table->string('discount_code')->nullable();
             $table->string('discount')->nullable();
             $table->timestamps();

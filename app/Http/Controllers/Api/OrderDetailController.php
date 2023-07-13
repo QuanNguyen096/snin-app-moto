@@ -92,7 +92,7 @@ class OrderDetailController extends Controller
             ->get();
 
         $products->transform(function ($product) {
-            $product->image = Storage::url($product->image);
+            $product->image = Storage::url('product/' . $product->image);
             return $product;
         });
 
@@ -126,12 +126,13 @@ class OrderDetailController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->json()->all();
-        $data['invoice_no'] = 'SPOS'.mt_rand(10000000,99999999);
+        $data['invoice_no'] = 'SPOS' . mt_rand(10000000, 99999999);
         // $customer_id = Customer::find(auth()->user()->id);
         try {
             DB::beginTransaction();
 
             $order = new Order();
+            $order->id = Order::generateId();
             $order->customer_id = auth()->user()->id;
             $order->user_id = auth()->user()->id;
             $order->address = $request->input('address');
@@ -142,7 +143,7 @@ class OrderDetailController extends Controller
             $order->payment = $request->input('payment');
             $order->ship = $request->input('ship');
             $order->total_products = 1;
-            $order->invoice_no = $data['invoice_no'];
+            // $order->invoice_no = $data['invoice_no'];
 
             $order->save();
             // $deliveryAddress = Delivery_address::where('user_id', auth()->user()->id)->first();
@@ -208,43 +209,5 @@ class OrderDetailController extends Controller
             // Trả về thông báo lỗi
             return response()->json(['message' => 'Đã xảy ra lỗi trong quá trình lưu đơn hàng'], 500);
         }
-    }
-
-
-
-
-
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrderDetail $orderDetail)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrderDetail $orderDetail)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, OrderDetail $orderDetail)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(OrderDetail $orderDetail)
-    {
-        //
     }
 }

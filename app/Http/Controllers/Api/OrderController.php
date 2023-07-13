@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\OrderDetail;
+use App\Models\Order_details;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,49 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
-
-    // public function index(Request $request)
-    // {
-    //     $perPage = $request->per_page ?? 10;
-    //     $userOrders = Order::with(['user' => function ($query) {
-    //         $query->select('id', 'name', 'image', 'gender', 'email', 'phone', 'address');
-    //     }])
-    //         ->where('user_id', auth()->user()->id)
-    //         ->orderBy('created_at', 'desc')
-    //         ->paginate($perPage);
-
-    //     // Lấy thông tin sản phẩm cho từng order
-    //     $userOrders->getCollection()->transform(function ($order) {
-    //         $orderDetails = OrderDetail::where('order_id', $order->id)->get();
-
-    //         // Lấy thông tin chi tiết cho từng sản phẩm
-    //         $orderDetails->transform(function ($orderDetail) {
-    //             $product = Product::findOrFail($orderDetail->product_id);
-    //             $orderDetail->product = $product;
-    //             return $orderDetail;
-    //         });
-
-    //         $order->product = $orderDetails;
-    //         return $order;
-    //     });
-
-    //     $currentPageItemCount = count($userOrders->items());
-    //     $totalItemCount = $userOrders->total();
-    //     $data = [
-    //         'status' => 200,
-    //         'data' => $userOrders->items(),
-    //         'current_page' => $userOrders->currentPage(),
-    //         'last_page' => $userOrders->lastPage(),
-    //         'per_page' => $perPage,
-    //         'total_items' => $totalItemCount,
-    //     ];
-
-    //     return response()->json($data, 200, [], JSON_UNESCAPED_UNICODE);
-    // }
     public function huyDonHang($orderId)
     {
         // Kiểm tra xem id order có tồn tại trong cơ sở dữ liệu không
@@ -66,7 +24,7 @@ class OrderController extends Controller
         // if ($order->status == 2) {
         //     return response()->json(['message' => 'Không tìm thấy đơn hàng'], 404);
         // }
-        $lsData = OrderDetail::where('order_id', $orderId)->get();
+        $lsData = Order_details::where('order_id', $orderId)->get();
 
         // return response()->json(['message' => $orderDetails], 404);
         try {
@@ -107,7 +65,7 @@ class OrderController extends Controller
                 ->where('user_id', auth()->user()->id)
                 ->orderBy('created_at', 'desc');
 
-            if ($status) {
+            if ($status !== null) { // Check if status parameter is provided
                 $query->where('status', $status);
             }
 
@@ -115,7 +73,7 @@ class OrderController extends Controller
 
             // Load product information for each order
             $userOrders->getCollection()->transform(function ($order) {
-                $orderDetails = OrderDetail::where('order_id', $order->id)->get();
+                $orderDetails = Order_details::where('order_id', $order->id)->get();
 
                 // Load detailed information for each product
                 $orderDetails->transform(function ($orderDetail) {
@@ -148,7 +106,7 @@ class OrderController extends Controller
 
     public function getOrdersByStatus($status)
     {
-        $orderDetails = OrderDetail::with('order', 'order.product')
+        $orderDetails = Order_details::with('order', 'order.product')
             ->whereHas('order', function ($query) use ($status) {
                 $query->where('status', $status)
                     ->where('user_id', auth()->user()->id);

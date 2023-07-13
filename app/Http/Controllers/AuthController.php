@@ -37,6 +37,7 @@ class AuthController extends Controller
 
         if ($existingUser) {
             if ($existingUser->login == 2) {
+                $input['name'] = $existingUser->name;                   
                 // Thực hiện cập nhật dữ liệu người dùng
                 $existingUser->update($input);
                 return response()->json(['status' => 200, 'message' => 'Cập nhật thành công'], 200);
