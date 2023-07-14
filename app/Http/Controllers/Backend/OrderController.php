@@ -8,6 +8,7 @@ use App\Models\Order_details;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Customer;
+use App\Models\User;
 use App\Models\Order;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -20,7 +21,8 @@ use App\Http\Controllers\MailController;
 class OrderController extends Controller
 {
 
-    public function order_browsing($order_id) {
+    public function order_browsing($order_id)
+    {
         $order = Order::find($order_id);
 
         $order->status = 3;
@@ -32,7 +34,8 @@ class OrderController extends Controller
 
         return redirect()->back()->with($notification);
     }
-    public function order_check($order_id) {
+    public function order_check($order_id)
+    {
         $order = Order::find($order_id);
 
         $order->status = 4;
@@ -44,11 +47,24 @@ class OrderController extends Controller
 
         return redirect()->back()->with($notification);
     }
+    public function order_cancel($order_id) {
+        $order = Order::find($order_id);
 
-    public function order_stripe_complete(Request $request) {
+        $order->status = 2;
+        $order->save();
+        $notification = array(
+            'message' => 'Hủy thành công!',
+            'alert-type' => 'success'
+        );
 
-        $discount = Discount::where('discount_code',session('discount'))->first();
-        if($discount != null) {
+        return redirect()->back()->with($notification);
+    }
+
+    public function order_stripe_complete(Request $request)
+    {
+
+        $discount = Discount::where('discount_code', session('discount'))->first();
+        if ($discount != null) {
             $re_entry = str_replace(',', '', $discount->remaining_entry);
             $num_entry = str_replace(',', '', $discount->number_entry);
             $re_entry = floatval($re_entry - 1);
@@ -60,11 +76,11 @@ class OrderController extends Controller
         }
 
 
-        $order = Order::where('invoice_no', $request->query('orderId'))->first();
-        $order->status = 3;
+        $order = Order::where('id', $request->query('orderId'))->first();
+        $order->status = 4;
         $order->save();
 
-        $customer = Customer::find($order->customer_id);
+        $customer = $order;
         $contents = Cart::content();
         $subtotal = floatval(str_replace(',', '', Cart::subtotal()));
         $tax = floatval(str_replace(',', '', Cart::tax()));
@@ -91,12 +107,12 @@ class OrderController extends Controller
         $mailController = new MailController();
         $mailController->index();
 
-        return view('backend.order.order_invoice',compact('contents','order','customer','data'));
-
+        return view('backend.order.order_invoice', compact('contents', 'order', 'customer', 'data'));
     }
-    public function order_momo_complete(Request $request){
-        $discount = Discount::where('discount_code',session('discount'))->first();
-        if($discount != null) {
+    public function order_momo_complete(Request $request)
+    {
+        $discount = Discount::where('discount_code', session('discount'))->first();
+        if ($discount != null) {
             $re_entry = str_replace(',', '', $discount->remaining_entry);
             $num_entry = str_replace(',', '', $discount->number_entry);
             $re_entry = floatval($re_entry - 1);
@@ -108,11 +124,11 @@ class OrderController extends Controller
         }
 
 
-        $order = Order::where('invoice_no', $request->query('orderId'))->first();
-        $order->status = 3;
+        $order = Order::where('id', $request->query('orderId'))->first();
+        $order->status = 4;
         $order->save();
 
-        $customer = Customer::find($order->customer_id);
+        $customer = $order;
         $contents = Cart::content();
         $subtotal = floatval(str_replace(',', '', Cart::subtotal()));
         $tax = floatval(str_replace(',', '', Cart::tax()));
@@ -136,12 +152,13 @@ class OrderController extends Controller
         $mailController = new MailController();
         $mailController->index();
 
-        return view('backend.order.order_invoice',compact('contents','order','customer','data'))->with($notification);
+        return view('backend.order.order_invoice', compact('contents', 'order', 'customer', 'data'))->with($notification);
     }
 
-    public function order_vnpay_complete(Request $request){
-        $discount = Discount::where('discount_code',session('discount'))->first();
-        if($discount != null) {
+    public function order_vnpay_complete(Request $request)
+    {
+        $discount = Discount::where('discount_code', session('discount'))->first();
+        if ($discount != null) {
             $re_entry = str_replace(',', '', $discount->remaining_entry);
             $num_entry = str_replace(',', '', $discount->number_entry);
             $re_entry = floatval($re_entry - 1);
@@ -181,10 +198,11 @@ class OrderController extends Controller
         $mailController = new MailController();
         $mailController->index();
 
-        return view('backend.order.order_invoice',compact('contents','order','customer','data'));
+        return view('backend.order.order_invoice', compact('contents', 'order', 'customer', 'data'));
     }
 
-    public function FinalInvoice(Request $request){
+    public function FinalInvoice(Request $request)
+    {
 
         $rtotal = $request->total;
         $rpay = $request->pay;
@@ -209,15 +227,14 @@ class OrderController extends Controller
         $contents = Cart::content();
 
         $pdata = array();
-        foreach($contents as $content){
+        foreach ($contents as $content) {
             $pdata['order_id'] = $order_id;
             $pdata['product_id'] = $content->id;
             $pdata['quantity'] = $content->qty;
             $pdata['unitcost'] = $content->price;
             $pdata['total'] = $content->total;
 
-            $insert = Orderdetails::insert($pdata);
-
+            $insert = Order_details::insert($pdata);
         } // end foreach
 
 
@@ -228,75 +245,73 @@ class OrderController extends Controller
 
         Cart::destroy();
 
-        $order = Order::where('invoice_no',$request->order_id)->first();
+        $order = Order::where('invoice_no', $request->order_id)->first();
         $customer = Customer::find($order->customer_id);
 
-        return view('backend.order.order_invoice',compact('contents','order','customer','data'))->with($notification);
-
-
+        return view('backend.order.order_invoice', compact('contents', 'order', 'customer', 'data'))->with($notification);
     } // End Method
 
 
-    public function PendingOrder(){
+    public function PendingOrder()
+    {
 
-        $orders = Order::where('order_status','pending')->get();
-        return view('backend.order.pending_order',compact('orders'));
+        $orders = Order::where('order_status', 'pending')->get();
+        return view('backend.order.pending_order', compact('orders'));
+    } // End Method
 
-    }// End Method
-
-     public function CompleteOrder(){
+    public function CompleteOrder()
+    {
 
         $orders = Order::latest()->get();
-        return view('backend.order.complete_order',compact('orders'));
-
-    }// End Method
-
-
-    public function OrderDetails($order_id){
-        $order = Order::where('id',$order_id)->first();
-
-        $orderItem = Order_details::with('product')->where('order_id',$order_id)->orderBy('id','DESC')->get();
-        return view('backend.order.order_details',compact('order','orderItem'));
-
-    }// End Method
+        return view('backend.order.complete_order', compact('orders'));
+    } // End Method
 
 
-    public function OrderStatusUpdate(Request $request){
+    public function OrderDetails($order_id)
+    {
+        $order = Order::where('id', $order_id)->first();
+
+        $orderItem = Order_details::with('product')->where('order_id', $order_id)->orderBy('id', 'DESC')->get();
+        return view('backend.order.order_details', compact('order', 'orderItem'));
+    } // End Method
+
+
+    public function OrderStatusUpdate(Request $request)
+    {
 
         $order_id = $request->id;
 
 
-    $product = Orderdetails::where('order_id',$order_id)->get();
-        foreach($product as $item){
-           Product::where('id',$item->product_id)
-                ->update(['product_store' => DB::raw('product_store-'.$item->quantity) ]);
+        $product = Orderdetails::where('order_id', $order_id)->get();
+        foreach ($product as $item) {
+            Product::where('id', $item->product_id)
+                ->update(['product_store' => DB::raw('product_store-' . $item->quantity)]);
         }
 
-     Order::findOrFail($order_id)->update(['order_status' => 'complete']);
+        Order::findOrFail($order_id)->update(['order_status' => 'complete']);
 
-         $notification = array(
+        $notification = array(
             'message' => 'Order Done Successfully',
             'alert-type' => 'success'
         );
 
         return redirect()->route('pending.order')->with($notification);
+    } // End Method
 
 
-    }// End Method
+    public function StockManage()
+    {
+
+        $product = Product::latest()->get();
+        return view('backend.stock.all_stock', compact('product'));
+    } // End Method
 
 
-    public function StockManage(){
+    public function OrderInvoice($order_id)
+    {
 
-    $product = Product::latest()->get();
-    return view('backend.stock.all_stock',compact('product'));
-
-    }// End Method
-
-
-    public function OrderInvoice($order_id){
-
-         $order = Order::where('id',$order_id)->first();
-        $customer = Customer::find($order->customer_id);
+        $order = Order::where('id', $order_id)->first();
+        $customer = User::find($order->user_id);
 
         $contents = DB::table('order_details')
             ->join('products', 'order_details.product_id', '=', 'products.id')
@@ -306,34 +321,34 @@ class OrderController extends Controller
             ->get();
 
         $data = [
-          'sub_total' => $order->sub_total,
-          'vat' => $order->vat,
+            'sub_total' => $order->sub_total,
+            'vat' => $order->vat,
             'discount' => $order->discount,
             'total' => $order->total_price
         ];
 
-        return view('backend.order.order_invoice',compact('contents','order','customer','data'));
+        return view('backend.order.order_invoice', compact('contents', 'order', 'customer', 'data'));
+    } // End Method
 
 
-    }// End Method
+    public function PendingDue()
+    {
+
+        $alldue = Order::where('due', '>', '0')->orderBy('id', 'DESC')->get();
+        return view('backend.order.pending_due', compact('alldue'));
+    } // End Method
 
 
-    public function PendingDue(){
-
-        $alldue = Order::where('due','>','0')->orderBy('id','DESC')->get();
-        return view('backend.order.pending_due',compact('alldue'));
-    }// End Method
-
-
-    public function OrderDueAjax($id){
+    public function OrderDueAjax($id)
+    {
 
         $order = Order::findOrFail($id);
         return response()->json($order);
+    } // End Method
 
-    }// End Method
 
-
-    public function UpdateDue(Request $request){
+    public function UpdateDue(Request $request)
+    {
 
         $order_id = $request->id;
         $due_amount = $request->due;
@@ -351,15 +366,13 @@ class OrderController extends Controller
             'pay' => $paid_pay,
         ]);
 
-         $notification = array(
+        $notification = array(
             'message' => 'Due Amount Updated Successfully',
             'alert-type' => 'success'
         );
 
         return redirect()->route('pending.due')->with($notification);
-
-
-    }// End Method
+    } // End Method
 
 
 }

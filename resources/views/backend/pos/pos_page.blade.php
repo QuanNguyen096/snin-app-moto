@@ -69,14 +69,10 @@
 
         <div class="form-group mb-3">
             <label for="firstname" class="form-label">Khách hàng </label>
-
-              <a href="{{ route('add.customer') }}" class="btn btn-primary rounded-pill waves-effect waves-light mb-2">Add Customer </a>
-
-
             <select name="customer_id" class="form-select" id="example-select">
-                    <option selected disabled >Select Customer </option>
+                    <option selected disabled >Chọn khách hàng </option>
                     @foreach($customer as $cus)
-        <option value="{{ $cus->customer_code }}">{{ $cus->name }}</option>
+        <option value="{{ $cus->id }}">{{ $cus->name }}</option>
                      @endforeach
                 </select>
 
@@ -86,7 +82,9 @@
         <input type="hidden" class="form-control" value="{{$discount}}">
         @endif
 
-        <button class="btn btn-blue waves-effect waves-light">Tạo hóa đơn</button>
+
+            <button class="btn btn-blue waves-effect waves-light" {{ Cart::content()->isEmpty() ? 'disabled' : '' }}>Tạo hóa đơn</button>
+
 
 
     </form>

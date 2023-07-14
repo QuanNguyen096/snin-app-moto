@@ -32,16 +32,15 @@
             <div class="card">
                 <div class="card-body">
 
-
+                    <div id="table-container">
                     <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                         <thead>
                             <tr>
-                                <th>Sl</th>
+                                <th>Mã sản phẩm</th>
                                 <th>Ảnh</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Loại sản phẩm</th>
                                 <th>Nhà cung cấp</th>
-                                <th>Mã sản phẩm</th>
                                 <th>Giá</th>
                                 <th>Số lượng</th>
                                 <th>Action</th>
@@ -52,12 +51,11 @@
         <tbody>
         	@foreach($product as $key=> $item)
             <tr>
-                <td>{{ $key+1 }}</td>
+                <td>{{ $item->id}}</td>
                 <td> <img src="{{ Storage::url('product/'.$item->image) }}" style="width:50px; height: 40px;"> </td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item['category']['name'] }}</td>
                 <td>{{ $item['supllier']['name'] }}</td>
-                <td>{{ $item->product_code }}</td>
                 <td>{{ $item->price }}</td>
                 <td>{{ $item->number }}</td>
                 <td>
@@ -70,6 +68,10 @@
             @endforeach
         </tbody>
                     </table>
+                    </div>
+                    <div id="pagination-container">
+                        <!-- Đặt cấu trúc nút phân trang -->
+                    </div>
 
                 </div> <!-- end card body-->
             </div> <!-- end card -->
@@ -85,4 +87,5 @@
                 </div> <!-- content -->
 
 
+                
 @endsection

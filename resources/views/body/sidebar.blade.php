@@ -20,18 +20,18 @@
         </li>
 
 
-        @if(Auth::user()->can('pos.menu'))
+        {{-- @if(Auth::user()->can('pos.menu')) --}}
            <li>
             <a href="{{ route('pos') }}">
                <i class="fas fa-cash-register"></i>
                 <span> POS </span>
             </a>
         </li>
-        @endif
+        {{-- @endif --}}
 
 
 
- @if(Auth::user()->can('product.menu'))
+ {{-- @if(Auth::user()->can('product.menu')) --}}
          <li>
             <a href="#product" data-bs-toggle="collapse">
                 <i class="fab fa-product-hunt"></i>
@@ -50,8 +50,8 @@
             </div>
         </li>
 
-@endif
- @if(Auth::user()->can('orders.menu'))
+{{-- @endif --}}
+ {{-- @if(Auth::user()->can('orders.menu')) --}}
 
                             <li>
                                 <a href="{{ route('complete.order') }}">
@@ -59,7 +59,7 @@
                                     <span> Hóa đơn </span>
                                 </a>
                             </li>
-@endif
+{{-- @endif --}}
 <!--                            <li>-->
 <!--                                <a href="{{ route('all.discount') }}">-->
 <!--                                    <i class="fas fa-percent"></i>-->
@@ -86,7 +86,7 @@
                                                             </div>
                                                         </li>
 
-                            @if(Auth::user()->can('employee.menu'))
+                            {{-- @if(Auth::user()->can('employee.menu')) --}}
                             <li>
                                 <a href="#sidebarEcommerce" data-bs-toggle="collapse">
                                     <i class="mdi mdi-account-multiple-outline"></i>
@@ -95,26 +95,26 @@
                                 </a>
                                 <div class="collapse" id="sidebarEcommerce">
                                     <ul class="nav-second-level">
-                                        @if(Auth::user()->can('employee.all'))
+                                        {{-- @if(Auth::user()->can('employee.all')) --}}
                                         <li>
                                             <a href="{{ route('all.employee') }}">Nhân viên</a>
                                         </li>
-                                        @endif
-                                        @if(Auth::user()->can('customer.all'))
-                                        <li>
-                                            <a href="{{ route('all.customer') }}">Khách hàng</a>
-                                        </li>
-                                        @endif
-                                        @if(Auth::user()->can('supplier.all'))
+                                        {{-- @endif --}}
+                                        {{-- @if(Auth::user()->can('customer.all')) --}}
+<!--                                        <li>-->
+<!--                                            <a href="{{ route('all.customer') }}">Khách hàng</a>-->
+<!--                                        </li>-->
+                                        {{-- @endif --}}
+                                        {{-- @if(Auth::user()->can('supplier.all')) --}}
                                         <li>
                                             <a href="{{ route('all.supplier') }}">Nhà cung cấp</a>
                                         </li>
-                                        @endif
+                                        {{-- @endif --}}
                                     </ul>
 
                                 </div>
                             </li>
-                            @endif
+                            {{-- @endif --}}
 
                             <li>
                                 <a href="{{ route('all.post') }}">
@@ -153,34 +153,34 @@
                                     <span> Banner </span>
                                 </a>
                             </li>
- <li>
-    <a href="#permission" data-bs-toggle="collapse">
-        <i class="fas fa-key"></i>
-        <span> Roles And Permission    </span>
-        <span class="menu-arrow"></span>
-    </a>
-    <div class="collapse" id="permission">
-        <ul class="nav-second-level">
-            <li>
-                <a href="{{ route('all.permission') }}">All Permission </a>
-            </li>
-
-            <li>
-                <a href="{{ route('all.roles') }}">All Roles </a>
-            </li>
-
-             <li>
-                <a href="{{ route('add.roles.permission') }}">Roles in Permission </a>
-            </li>
-
-             <li>
-                <a href="{{ route('all.roles.permission') }}">All Roles in Permission </a>
-            </li>
-
-
-        </ul>
-    </div>
-</li>
+<!-- <li>-->
+<!--    <a href="#permission" data-bs-toggle="collapse">-->
+<!--        <i class="fas fa-key"></i>-->
+<!--        <span> Roles And Permission    </span>-->
+<!--        <span class="menu-arrow"></span>-->
+<!--    </a>-->
+<!--    <div class="collapse" id="permission">-->
+<!--        <ul class="nav-second-level">-->
+<!--            <li>-->
+<!--                <a href="{{ route('all.permission') }}">All Permission </a>-->
+<!--            </li>-->
+<!---->
+<!--            <li>-->
+<!--                <a href="{{ route('all.roles') }}">All Roles </a>-->
+<!--            </li>-->
+<!---->
+<!--             <li>-->
+<!--                <a href="{{ route('add.roles.permission') }}">Roles in Permission </a>-->
+<!--            </li>-->
+<!---->
+<!--             <li>-->
+<!--                <a href="{{ route('all.roles.permission') }}">All Roles in Permission </a>-->
+<!--            </li>-->
+<!---->
+<!---->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</li>-->
 
                             <li>
                                 <a href="{{ route('all.admin') }}">

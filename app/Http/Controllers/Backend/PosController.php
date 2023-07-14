@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Discount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Customer;
@@ -14,7 +15,7 @@ class PosController extends Controller
 {
     public function Pos(Request $request){
         $product = Product::latest()->get();
-        $customer = Customer::latest()->get();
+        $customer = User::latest()->get();
         return view('backend.pos.pos_page',compact('product','customer'));
 
     } // End Method
@@ -119,7 +120,7 @@ class PosController extends Controller
 
          $contents = Cart::content();
          $cust_id = $request->customer_id;
-         $customer = Customer::where('customer_code',$cust_id)->first();
+         $customer = User::where('id',$cust_id)->first();
          return view('backend.invoice.product_invoice',compact('contents','customer'));
 
     } // End Method
