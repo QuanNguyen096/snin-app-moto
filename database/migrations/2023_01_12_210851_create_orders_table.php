@@ -16,8 +16,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->integer('customer_id');
-            $table->integer('user_id')->nullable();
+            $table->integer('user_id');
             $table->tinyInteger('status')->default(1);
             $table->integer('total_price')->default(0);
             $table->Text('address')->default(0);

@@ -101,9 +101,15 @@
                                         </li>
                                         {{-- @endif --}}
                                         {{-- @if(Auth::user()->can('customer.all')) --}}
+<<<<<<< HEAD
                                         <li>
                                             <a href="{{ route('all.customer') }}">Khách hàng</a>
                                         </li>
+=======
+<!--                                        <li>-->
+<!--                                            <a href="{{ route('all.customer') }}">Khách hàng</a>-->
+<!--                                        </li>-->
+>>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
                                         {{-- @endif --}}
                                         {{-- @if(Auth::user()->can('supplier.all')) --}}
                                         <li>
@@ -153,34 +159,34 @@
                                     <span> Banner </span>
                                 </a>
                             </li>
- <li>
-    <a href="#permission" data-bs-toggle="collapse">
-        <i class="fas fa-key"></i>
-        <span> Roles And Permission    </span>
-        <span class="menu-arrow"></span>
-    </a>
-    <div class="collapse" id="permission">
-        <ul class="nav-second-level">
-            <li>
-                <a href="{{ route('all.permission') }}">All Permission </a>
-            </li>
-
-            <li>
-                <a href="{{ route('all.roles') }}">All Roles </a>
-            </li>
-
-             <li>
-                <a href="{{ route('add.roles.permission') }}">Roles in Permission </a>
-            </li>
-
-             <li>
-                <a href="{{ route('all.roles.permission') }}">All Roles in Permission </a>
-            </li>
-
-
-        </ul>
-    </div>
-</li>
+<!-- <li>-->
+<!--    <a href="#permission" data-bs-toggle="collapse">-->
+<!--        <i class="fas fa-key"></i>-->
+<!--        <span> Roles And Permission    </span>-->
+<!--        <span class="menu-arrow"></span>-->
+<!--    </a>-->
+<!--    <div class="collapse" id="permission">-->
+<!--        <ul class="nav-second-level">-->
+<!--            <li>-->
+<!--                <a href="{{ route('all.permission') }}">All Permission </a>-->
+<!--            </li>-->
+<!---->
+<!--            <li>-->
+<!--                <a href="{{ route('all.roles') }}">All Roles </a>-->
+<!--            </li>-->
+<!---->
+<!--             <li>-->
+<!--                <a href="{{ route('add.roles.permission') }}">Roles in Permission </a>-->
+<!--            </li>-->
+<!---->
+<!--             <li>-->
+<!--                <a href="{{ route('all.roles.permission') }}">All Roles in Permission </a>-->
+<!--            </li>-->
+<!---->
+<!---->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</li>-->
 
                             <li>
                                 <a href="{{ route('all.admin') }}">

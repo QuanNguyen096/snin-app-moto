@@ -268,6 +268,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/order/invoice-download/{order_id}', 'OrderInvoice');
         Route::post('/order_browsing/{order_id}', 'order_browsing')->name('order.browsing');
         Route::post('/order_check/{order_id}', 'order_check')->name('order.check');
+<<<<<<< HEAD
+=======
+        Route::post('/order_cancel/{order_id}', 'order_cancel')->name('order.cancel');
+
+>>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
 
         //// Due All Route
 

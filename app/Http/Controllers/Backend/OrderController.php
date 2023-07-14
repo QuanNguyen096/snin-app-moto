@@ -47,10 +47,28 @@ class OrderController extends Controller
 
         return redirect()->back()->with($notification);
     }
+    public function order_cancel($order_id) {
+        $order = Order::find($order_id);
+
+<<<<<<< HEAD
+    public function order_stripe_complete(Request $request)
+    {
+
+=======
+        $order->status = 2;
+        $order->save();
+        $notification = array(
+            'message' => 'Hủy thành công!',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 
     public function order_stripe_complete(Request $request)
     {
 
+>>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
         $discount = Discount::where('discount_code', session('discount'))->first();
         if ($discount != null) {
             $re_entry = str_replace(',', '', $discount->remaining_entry);
@@ -64,11 +82,11 @@ class OrderController extends Controller
         }
 
 
-        $order = Order::where('invoice_no', $request->query('orderId'))->first();
-        $order->status = 3;
+        $order = Order::where('id', $request->query('orderId'))->first();
+        $order->status = 4;
         $order->save();
 
-        $customer = Customer::find($order->customer_id);
+        $customer = $order;
         $contents = Cart::content();
         $subtotal = floatval(str_replace(',', '', Cart::subtotal()));
         $tax = floatval(str_replace(',', '', Cart::tax()));
@@ -112,11 +130,11 @@ class OrderController extends Controller
         }
 
 
-        $order = Order::where('invoice_no', $request->query('orderId'))->first();
-        $order->status = 3;
+        $order = Order::where('id', $request->query('orderId'))->first();
+        $order->status = 4;
         $order->save();
 
-        $customer = Customer::find($order->customer_id);
+        $customer = $order;
         $contents = Cart::content();
         $subtotal = floatval(str_replace(',', '', Cart::subtotal()));
         $tax = floatval(str_replace(',', '', Cart::tax()));

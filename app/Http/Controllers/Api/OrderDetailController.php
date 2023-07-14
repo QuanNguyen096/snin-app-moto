@@ -133,7 +133,6 @@ class OrderDetailController extends Controller
 
             $order = new Order();
             $order->id = Order::generateId();
-            $order->customer_id = auth()->user()->id;
             $order->user_id = auth()->user()->id;
             $order->address = $request->input('address');
             $order->name = $request->input('name');

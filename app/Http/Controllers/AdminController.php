@@ -146,9 +146,6 @@ class AdminController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        if ($request->roles) {
-            $user->assignRole($request->roles);
-        }
 
         $notification = array(
             'message' => 'New Admin User Created Successfully',

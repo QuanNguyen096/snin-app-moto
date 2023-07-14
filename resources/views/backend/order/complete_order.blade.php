@@ -36,11 +36,13 @@
                                 <th>Hình ảnh</th>
                                 <th>Tên khách hàng</th>
                                 <th>Ngày tạo hóa đơn</th>
+<<<<<<< HEAD
                                 <th>Phương thức</th>
+=======
+>>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
-                                <th>Đơn hàng</th>
-                                <th>Action</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
 
@@ -52,7 +54,10 @@
                 <td> <img src="{{ Storage::url('public/user/'.$item->user->image) }}" style="width:50px; height: 40px;"> </td>
                 <td>{{ $item['user']['name'] }}</td>
                 <td>{{ $item->created_at }}</td>
+<<<<<<< HEAD
                 <td>{{ $item->payment }}</td>
+=======
+>>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
                 <td>{{ $item->total_price }}</td>
                 @if($item->status == 1)
                 <td> <span class="badge bg-danger">Chưa duyệt</span> </td>
@@ -69,17 +74,24 @@
                         @csrf
                         <button type="submit" class="btn btn-primary" name="approve">Duyệt đơn hàng</button>
                     </form>
+                    <form method="post" action="{{ route('order.cancel',$item->id) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary" name="approve">Hủy đơn</button>
+                    </form>
                     @elseif($item->status == 3)
                     <form method="post" action="{{ route('order.check',$item->id) }}">
                         @csrf
                         <button type="submit" class="btn btn-primary" name="approve">Giao hàng thành công</button>
                     </form>
+                    <form method="post" action="{{ route('order.cancel',$item->id) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary" name="approve">Hủy đơn</button>
+                    </form>
                     @endif
+                    
+                    <a href="{{ url('order/invoice-download/'.$item->id) }}" class="btn btn-blue rounded-pill waves-effect waves-light"> Chi tiết </a>
                 </td>
-                <td>
-<a href="{{ url('order/invoice-download/'.$item->id) }}" class="btn btn-blue rounded-pill waves-effect waves-light"> Chi tiết </a>
-
-                </td>
+                
             </tr>
             @endforeach
         </tbody>

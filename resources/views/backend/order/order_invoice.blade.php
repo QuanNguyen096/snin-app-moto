@@ -14,12 +14,12 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Customer Invoice</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Chi tiết hóa đơn</a></li>
 
 
                         </ol>
                     </div>
-                    <h4 class="page-title">Customer Invoice</h4>
+                    <h4 class="page-title">Chi tiết hóa đơn</h4>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <div class="float-end">
-                                <h4 class="m-0 d-print-none">Invoice</h4>
+                                <h4 class="m-0 d-print-none">Hóa đơn</h4>
                             </div>
                         </div>
 
@@ -72,8 +72,12 @@
                                             <p><span class="badge bg-danger">Chưa duyệt</span></p>
                                             @elseif($order->status == 3)
                                             <p><span class="badge bg-success">Đã duyệt</span></p>
+                                            @elseif($order->status == 4)
+                                            <p><span class="badge bg-success">Thành công</span></p>
+                                            @elseif($order->status == 2)
+                                            <p><span class="badge bg-success">Đã hủy</span></p>
                                             @endif
-                                            <p style="margin-bottom: 0; white-space: nowrap;">{{ $order->invoice_no }}</p>
+                                            <p style="margin-bottom: 0; white-space: nowrap;">{{ $order->id }}</p>
 
                                         </div>
                                     </div>
@@ -84,7 +88,7 @@
                             <div class="col-sm-6">
                                 <h6>Billing Address</h6>
                                 <address>
-                                    {{ $customer->address }} - {{ $customer->city }}
+                                    {{ $order->address }}
                                     <br>
                                     <abbr title="Phone">Phone:</abbr> {{ $customer->phone }}<br>
                                     <abbr title="Phone">Email:</abbr> {{ $customer->email }}<br>

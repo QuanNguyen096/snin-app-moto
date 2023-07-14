@@ -18,15 +18,15 @@ class PaymentController extends Controller
         $rpay = $request->pay;
         $mtotal = $rtotal - $rpay;
 
-        $data['customer_id'] = $request->customer_id;
+        $data['user_id'] = $request->customer_id;
         if($request->order_status = 'pending') {
-            $data['status'] = 2;
+            $data['status'] = 4;
         }
+        $data['id'] = Order::generateId();
         $data['total_products'] = $request->total_products;
         $data['sub_total'] = $request->sub_total;
         $data['vat'] = $request->vat;
         $data['address'] = $request->address;
-        $data['invoice_no'] = $request->order_id;
         $data['total_price'] = $request->total;
         $data['payment'] = 2;
         $data['discount_code'] = session('discount');
@@ -38,7 +38,7 @@ class PaymentController extends Controller
 
         $pdata = array();
         foreach($contents as $content){
-            $pdata['order_id'] = $order_id;
+            $pdata['order_id'] = $data['id'];
             $pdata['product_id'] = $content->id;
             $pdata['quantity'] = $content->qty;
             $pdata['price'] = $content->total;
@@ -71,7 +71,7 @@ class PaymentController extends Controller
                 ],
             ],
             'mode'        => 'payment',
-            'success_url' => route('order_stripe_complete', ['orderId' => $request->order_id,'amount' => $request->total]),
+            'success_url' => route('order_stripe_complete', ['orderId' => $data['id'],'amount' => $request->total]),
             'cancel_url'  => route('stripe_checkout'),
         ]);
 
@@ -195,22 +195,19 @@ class PaymentController extends Controller
 
     public function momo_qr_payment(Request $request)
     {
-       
-
-
         $rtotal = $request->total;
         $rpay = $request->pay;
         $mtotal = $rtotal - $rpay;
 
-        $data['customer_id'] = $request->customer_id;
+        $data['user_id'] = $request->customer_id;
         if($request->order_status = 'pending') {
-            $data['status'] = 3;
+            $data['status'] = 4;
         }
+        $data['id'] = Order::generateId();
         $data['total_products'] = $request->total_products;
         $data['sub_total'] = $request->sub_total;
         $data['vat'] = $request->vat;
         $data['address'] = $request->address;
-        $data['invoice_no'] = $request->order_id;
         $data['total_price'] = $request->total;
         $data['payment'] = 2;
         $data['discount_code'] = session('discount');
@@ -268,7 +265,7 @@ class PaymentController extends Controller
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
         $orderInfo = "Thanh toán qua MoMo";
         $amount = $_POST["total"];
-        $orderId = $_POST["order_id"];
+        $orderId = $data['id'];
         $redirectUrl = "${baseUrl}/order_momo_complete";
         $ipnUrl = "${baseUrl}/order_momo_complete";
         $extraData = "";
@@ -322,13 +319,11 @@ class PaymentController extends Controller
         } else {
             $data['customer_id'] = $request->customer_id;
         }
-        $data['order_date'] = $request->order_date;
         $data['order_status'] = $request->order_status;
         $data['total_products'] = $request->total_products;
         $data['sub_total'] = $request->sub_total;
         $data['vat'] = $request->vat;
 
-        $data['invoice_no'] = $request->order_id;
         $data['total'] = $request->total;
         $data['payment_status'] = "Vnpay";
         $data['pay'] = $request->pay;
