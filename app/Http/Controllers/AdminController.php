@@ -13,14 +13,15 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-     public function AdminDestroy(Request $request) {
+    public function AdminDestroy(Request $request)
+    {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-         $notification = array(
+        $notification = array(
             'message' => 'Admin Logout Successfully',
             'alert-type' => 'info'
         );
@@ -30,23 +31,25 @@ class AdminController extends Controller
     } // End Method
 
 
-    public function AdminLogoutPage(){
+    public function AdminLogoutPage()
+    {
 
         return view('admin.admin_logout');
-
-    }// End Method
-
+    } // End Method
 
 
-    public function AdminProfile(){
+
+    public function AdminProfile()
+    {
 
         $id = Auth::user()->id;
         $adminData = User::find($id);
-        return view('admin.admin_profile_view',compact('adminData'));
-    }// End Method
+        return view('admin.admin_profile_view', compact('adminData'));
+    } // End Method
 
 
-    public function AdminProfileStore(Request $request){
+    public function AdminProfileStore(Request $request)
+    {
 
         $id = Auth::user()->id;
         $data = User::find($id);
@@ -72,18 +75,18 @@ class AdminController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    } // End Method
 
 
-    }// End Method
-
-
-    public function ChangePassword(){
+    public function ChangePassword()
+    {
         return view('admin.change_password');
-    }// End Method
+    } // End Method
 
 
 
-    public function UpdatePassword(Request $request){
+    public function UpdatePassword(Request $request)
+    {
 
         /// Validation
         $request->validate([
@@ -95,12 +98,11 @@ class AdminController extends Controller
         /// Match The Old Password
         if (!Hash::check($request->old_password, auth::user()->password)) {
 
-             $notification = array(
-            'message' => 'Old Password Dones not Match!!',
-            'alert-type' => 'error'
-             );
+            $notification = array(
+                'message' => 'Old Password Dones not Match!!',
+                'alert-type' => 'error'
+            );
             return back()->with($notification);
-
         }
 
         //// Update The New Password
@@ -109,31 +111,33 @@ class AdminController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
-            $notification = array(
+        $notification = array(
             'message' => 'Password Change Successfully',
             'alert-type' => 'success'
-             );
-            return back()->with($notification);
+        );
+        return back()->with($notification);
+    } // End Method
 
-    }// End Method
-
-   /////////////////// Admin User All Method /////////////
+    /////////////////// Admin User All Method /////////////
 
 
-    public function AllAdmin(){
+    public function AllAdmin()
+    {
 
         $alladminuser = User::latest()->get();
-        return view('backend.admin.all_admin',compact('alladminuser'));
-    }// End Method
+        return view('backend.admin.all_admin', compact('alladminuser'));
+    } // End Method
 
-    public function AddAdmin(){
+    public function AddAdmin()
+    {
 
         $roles = Role::all();
-        return view('backend.admin.add_admin',compact('roles'));
-    }// End Method
+        return view('backend.admin.add_admin', compact('roles'));
+    } // End Method
 
 
-    public function StoreAdmin(Request $request){
+    public function StoreAdmin(Request $request)
+    {
 
         $user = new User();
         $user->name = $request->name;
@@ -152,20 +156,20 @@ class AdminController extends Controller
         );
 
         return redirect()->route('all.admin')->with($notification);
+    } // End Method
 
-    }// End Method
 
-
-    public function EditAdmin($id){
+    public function EditAdmin($id)
+    {
 
         $roles = Role::all();
         $adminuser = User::findOrFail($id);
-        return view('backend.admin.edit_admin',compact('roles','adminuser'));
+        return view('backend.admin.edit_admin', compact('roles', 'adminuser'));
+    } // End Method
 
-    }// End Method
 
-
-    public function UpdateAdmin(Request $request){
+    public function UpdateAdmin(Request $request)
+    {
 
         $admin_id = $request->id;
 
@@ -186,12 +190,12 @@ class AdminController extends Controller
         );
 
         return redirect()->route('all.admin')->with($notification);
-
-    }// End Method
-
+    } // End Method
 
 
-    public function DeleteAdmin($id){
+
+    public function DeleteAdmin($id)
+    {
 
         $user = User::findOrFail($id);
         if (!is_null($user)) {
@@ -204,52 +208,10 @@ class AdminController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    } // End Method
 
-    }// End Method
+    //////////////// Database Backup Method //////////////////
 
-     //////////////// Database Backup Method //////////////////
-
-    public function DatabaseBackup(){
-
-        return view('admin.db_backup')->with('files',File::allFiles(storage_path('/app/Easy')));
-
-    }// End Method
-
-
-    public function BackupNow(){
-        \Artisan::call('backup:run');
-
-          $notification = array(
-            'message' => 'Database Backup Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->back()->with($notification);
-
-
-    }// End Method
-
-
-    public function DownloadDatabase($getFilename){
-
-        $path = storage_path('app\Easy/'.$getFilename);
-        return response()->download($path);
-
-    }// End Method
-
-    public function DeleteDatabase($getFilename){
-
-        Storage::delete('Easy/'.$getFilename);
-
-         $notification = array(
-            'message' => 'Database Deleted Successfully',
-            'alert-type' => 'success'
-        );
-
-        return redirect()->back()->with($notification);
-
-
-    }// End Method
 
 
 }

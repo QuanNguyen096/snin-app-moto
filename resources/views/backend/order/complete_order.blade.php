@@ -32,12 +32,11 @@
                     <table id="basic-datatable" class="table dt-responsive nowrap w-100">
                         <thead>
                             <tr>
-                                <th>Sl</th>
+                                <th>Mã hóa đơn</th>
                                 <th>Hình ảnh</th>
                                 <th>Tên khách hàng</th>
                                 <th>Ngày tạo hóa đơn</th>
                                 <th>Phương thức</th>
-                                <th>Mã hóa đơn</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
                                 <th>Đơn hàng</th>
@@ -49,12 +48,11 @@
         <tbody>
         	@foreach($orders as $key=> $item)
             <tr>
-                <td>{{ $key+1 }}</td>
-                <td> <img src="{{ Storage::url('public/customer/'.$item->customer->image) }}" style="width:50px; height: 40px;"> </td>
-                <td>{{ $item['customer']['name'] }}</td>
+                <td>{{ $item->id }}</td>
+                <td> <img src="{{ Storage::url('public/user/'.$item->user->image) }}" style="width:50px; height: 40px;"> </td>
+                <td>{{ $item['user']['name'] }}</td>
                 <td>{{ $item->created_at }}</td>
                 <td>{{ $item->payment }}</td>
-                <td>{{ $item->invoice_no }}</td>
                 <td>{{ $item->total_price }}</td>
                 @if($item->status == 1)
                 <td> <span class="badge bg-danger">Chưa duyệt</span> </td>
@@ -62,6 +60,8 @@
                 <td> <span class="badge bg-success">Đã duyệt</span> </td>
                 @elseif($item->status == 4)
                 <td> <span class="badge bg-success">Thành công</span> </td>
+                @elseif($item->status == 2)
+                <td> <span class="badge bg-danger">Đã hủy</span> </td>
                 @endif
                 <td>
                     @if($item->status == 1)
