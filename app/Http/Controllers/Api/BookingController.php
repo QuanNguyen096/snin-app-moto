@@ -18,22 +18,32 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         $bookingDate = $request->input('booking_date') ? Carbon::parse($request->input('booking_date'))->format('Y-m-d') : null;
+        $orderBy = $request->input('order_by');
+        $orderOptions = [
+            '1' => 'created_at', // Sort by created_at (default)
+            '2' => 'booking_time', // Sort by booking_time
+            // Add more options here if needed
+        ];
+
+        if (!isset($orderOptions[$orderBy])) {
+            $orderBy = '1'; // Default to created_at if order_by value is invalid
+        }
 
         $userBookings = Booking::where('customer_id', auth()->user()->id)
             ->when($bookingDate, function ($query) use ($bookingDate) {
                 return $query->whereDate('booking_time', $bookingDate);
             })
             ->where('status', true)
-            ->orderByDesc('created_at') // Sort by latest created_at
+            ->orderByDesc($orderOptions[$orderBy])
             ->get();
 
         $updatedBookings = $userBookings->map(function ($booking) {
             $bookingTime = Carbon::parse($booking->booking_time)->startOfDay();
             $currentTime = Carbon::now()->startOfDay();
 
-            if ($bookingTime->greaterThan($currentTime)) {
+            if ($bookingTime->gt($currentTime)) {
                 $booking->color = '2'; // Greater than current date
-            } elseif ($bookingTime->equalTo($currentTime)) {
+            } elseif ($bookingTime->eq($currentTime)) {
                 $booking->color = '1'; // Equal to current date
             } else {
                 $booking->color = '0'; // Less than current date
