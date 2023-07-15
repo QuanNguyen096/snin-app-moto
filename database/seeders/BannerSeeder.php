@@ -19,9 +19,9 @@ class BannerSeeder extends Seeder
         // Banner::create(['name' => 'none', 'image' => 'banner/1.jpg']);
         // Banner::create(['name' => 'none', 'image' => 'banner/2.jpg']);
         // Banner::create(['name' => 'none', 'image' => 'banner/3.jpg']);
-        // Banner::create(['name' => 'none', 'image' => 'banner/4.jpg']);
+        Banner::create(['name' => 'none', 'image' => 'banner/4.jpg']);
         Banner::create(['name' => 'none', 'image' => 'banner/5.jpg']);
         Banner::create(['name' => 'none', 'image' => 'banner/6.jpg']);
-        Banner::create(['name' => 'none', 'image' => 'banner/7.jpg']);
+        // Banner::create(['name' => 'none', 'image' => 'banner/7.jpg']);
     }
 }

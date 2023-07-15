@@ -141,6 +141,8 @@ class OrderDetailController extends Controller
             $order->delivery_date = $request->input('delivery_date');
             $order->payment = $request->input('payment');
             $order->ship = $request->input('ship');
+            $order->phone = $request->input('phone');
+
             $order->total_products = 1;
             // $order->invoice_no = $data['invoice_no'];
 

@@ -36,7 +36,7 @@ class Order extends Model
         'sub_total',
         'vat',
         'discount_code',
-        'discount',
+        'discount', 'phone',
     ];
 
     public function customer()
