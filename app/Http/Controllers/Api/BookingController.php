@@ -20,13 +20,13 @@ class BookingController extends Controller
         $bookingDate = $request->input('booking_date') ? Carbon::parse($request->input('booking_date'))->format('Y-m-d') : null;
         $orderBy = $request->input('order_by');
         $orderOptions = [
-            '1' => 'created_at', // Sort by created_at (default)
-            '2' => 'booking_time', // Sort by booking_time
-            // Add more options here if needed
+            '1' => 'created_at',
+            '2' => 'booking_time',
+
         ];
 
         if (!isset($orderOptions[$orderBy])) {
-            $orderBy = '1'; // Default to created_at if order_by value is invalid
+            $orderBy = '1';
         }
 
         $userBookings = Booking::where('customer_id', auth()->user()->id)
@@ -42,11 +42,11 @@ class BookingController extends Controller
             $currentTime = Carbon::now()->startOfDay();
 
             if ($bookingTime->gt($currentTime)) {
-                $booking->color = '2'; // Greater than current date
+                $booking->color = '2';
             } elseif ($bookingTime->eq($currentTime)) {
-                $booking->color = '1'; // Equal to current date
+                $booking->color = '1';
             } else {
-                $booking->color = '0'; // Less than current date
+                $booking->color = '0';
             }
 
             return $booking;
@@ -83,14 +83,7 @@ class BookingController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(StoreBookingRequest $request)
-    // {
-    //     //
 
-    // }
 
 
 
@@ -117,7 +110,7 @@ class BookingController extends Controller
             $booking->note = $request->input('note');
             $booking->address = $request->input('address');
             $booking->service = $request->input('service');
-            // $booking->service = $request->input('service');
+
 
             $booking->save();
 
@@ -130,13 +123,8 @@ class BookingController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Booking $booking)
-    {
-        //
-    }
+
+
     public function createBooking(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -166,22 +154,12 @@ class BookingController extends Controller
             ], 500);
         }
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Booking $booking)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
         $booking = Booking::findOrFail($id);
 
-        // Kiểm tra xem user có quyền sửa booking này hay không
+
         if ($booking->customer_id !== auth()->user()->id) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -190,14 +168,5 @@ class BookingController extends Controller
         $booking->save();
 
         return response()->json(['message' => 'Booking updated successfully'], 200);
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Booking $booking)
-    {
-        //
     }
 }
