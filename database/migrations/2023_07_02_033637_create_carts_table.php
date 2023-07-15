@@ -22,8 +22,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->string('price');
             $table->integer('total_price')->default(0);
-            $table->dateTime('booking_date')->default(Carbon::now());
-            $table->dateTime('delivery date')->default(Carbon::now());
+            // $table->dateTime('booking_date')->default(Carbon::now());
+            // $table->dateTime('delivery date')->default(Carbon::now());
             $table->timestamps();
         });
     }
