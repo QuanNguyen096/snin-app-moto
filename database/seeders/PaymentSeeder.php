@@ -27,7 +27,7 @@ class PaymentSeeder extends Seeder
             ],
             [
                 'name' => 'Ví của tôi',
-                'image' => 'donation.png'
+                'image' => 'salary.png'
             ],
         ];
         foreach ($lsData as $data) {

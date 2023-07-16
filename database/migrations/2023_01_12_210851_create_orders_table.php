@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(1);
             $table->integer('total_price')->default(0);
             $table->Text('address')->default(0);
+            $table->Text('phone')->nullable();
             $table->String('name')->default(0);
             $table->integer('payment')->default(1);
             $table->Text('note')->nullable();

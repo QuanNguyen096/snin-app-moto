@@ -282,7 +282,7 @@ class OrderController extends Controller
         $order_id = $request->id;
 
 
-        $product = Orderdetails::where('order_id', $order_id)->get();
+        $product = Order_details::where('order_id', $order_id)->get();
         foreach ($product as $item) {
             Product::where('id', $item->product_id)
                 ->update(['product_store' => DB::raw('product_store-' . $item->quantity)]);

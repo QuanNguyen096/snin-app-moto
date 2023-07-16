@@ -14,7 +14,7 @@ class Cart extends Model
         'status',
         'quantity',
         'price',
-        'booking_date',
-        'delivery_date',
+        // 'booking_date',
+        // 'delivery_date',
     ];
 }

@@ -18,11 +18,11 @@
                                 <div class="page-title-box">
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">POS</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript: void(0);">Bán hàng</a></li>
 
                                         </ol>
                                     </div>
-                                    <h4 class="page-title">POS</h4>
+                                    <h4 class="page-title">Bán hàng</h4>
                                 </div>
                             </div>
                         </div>
@@ -108,7 +108,7 @@
                                     <div class="card-body">
                                         <div class="container box">
                                             <div class="form-group mb-3">
-                                                <label for="product_search" class="form-label">Search Product</label>
+                                                <label for="product_search" class="form-label">Tìm kiếm sản phẩm</label>
                                                 <input type="text" id="product_search" name="product_search" class="form-control" autocomplete="off">
                                                 <div id="productList"></div>
                                             </div>
@@ -118,11 +118,11 @@
                                             <table class="table table-bordered border-primary mb-1">
                                                 <thead>
                                                 <tr>
-                                                    <th>Name</th>
-                                                    <th>QTY</th>
-                                                    <th>Price</th>
-                                                    <th>SubTotal</th>
-                                                    <th>Action</th>
+                                                    <th>Tên</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Giá</th>
+                                                    <th>Tổng tiền</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                                 </thead>
 

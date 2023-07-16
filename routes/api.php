@@ -147,7 +147,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //! Booking 
     Route::post('bookings', [BookingController::class, 'createBooking']);
-    Route::get('bookings', [BookingController::class, 'index']);
+    Route::get('bookings/', [BookingController::class, 'index']);
     Route::post('bookings/{id}', [BookingController::class, 'update']);
     Route::post('bookings/{id}/status', [BookingController::class, 'updateBookingStatus'])->name('bookings.update.status');
 

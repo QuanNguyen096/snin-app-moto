@@ -101,15 +101,9 @@
                                         </li>
                                         {{-- @endif --}}
                                         {{-- @if(Auth::user()->can('customer.all')) --}}
-<<<<<<< HEAD
-                                        <li>
-                                            <a href="{{ route('all.customer') }}">Khách hàng</a>
-                                        </li>
-=======
 <!--                                        <li>-->
 <!--                                            <a href="{{ route('all.customer') }}">Khách hàng</a>-->
 <!--                                        </li>-->
->>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
                                         {{-- @endif --}}
                                         {{-- @if(Auth::user()->can('supplier.all')) --}}
                                         <li>
