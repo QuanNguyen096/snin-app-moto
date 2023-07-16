@@ -254,22 +254,22 @@
 
                     // Gửi form
                     document.getElementById('barcode-form').submit();
-                } else if (lastCode.startsWith("CC")) {
+                } else {
+                    Quagga.stop(); // Dừng quét mã vạch
 
-                    console.log(lastCode);
+
                     // Tìm option có giá trị tương ứng với customerCode
                     var selectElement = document.getElementById('example-select');
                     var options = selectElement.options;
+                    var customerId = parseInt(lastCode); // Chuyển đổi mã khách hàng thành số nguyên
+                            
                     for (var i = 0; i < options.length; i++) {
-                        if (options[i].value === lastCode) {
+                        if (parseInt(options[i].value) === customerId) {
                             selectElement.selectedIndex = i;
                             break;
                         }
                     }
-
-                } else {
-                    Quagga.stop(); // Dừng quét mã vạch
-
+                    
                     document.getElementById('discount_code').value = lastCode;
                     document.getElementById('discount_form').submit();
                 }

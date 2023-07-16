@@ -23,7 +23,7 @@ class PosController extends Controller
 
     public function AddCart_Barcode(Request $request){
 
-        $product = Product::where('product_code',$request->query('barcode'))->first();
+        $product = Product::where('id',$request->query('barcode'))->first();
 
         Cart::add([
             'id' => $product->id,
