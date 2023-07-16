@@ -50,11 +50,6 @@ class OrderController extends Controller
     public function order_cancel($order_id) {
         $order = Order::find($order_id);
 
-<<<<<<< HEAD
-    public function order_stripe_complete(Request $request)
-    {
-
-=======
         $order->status = 2;
         $order->save();
         $notification = array(
@@ -68,7 +63,6 @@ class OrderController extends Controller
     public function order_stripe_complete(Request $request)
     {
 
->>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
         $discount = Discount::where('discount_code', session('discount'))->first();
         if ($discount != null) {
             $re_entry = str_replace(',', '', $discount->remaining_entry);

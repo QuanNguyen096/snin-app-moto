@@ -36,10 +36,6 @@
                                 <th>Hình ảnh</th>
                                 <th>Tên khách hàng</th>
                                 <th>Ngày tạo hóa đơn</th>
-<<<<<<< HEAD
-                                <th>Phương thức</th>
-=======
->>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
@@ -54,10 +50,6 @@
                 <td> <img src="{{ Storage::url('public/user/'.$item->user->image) }}" style="width:50px; height: 40px;"> </td>
                 <td>{{ $item['user']['name'] }}</td>
                 <td>{{ $item->created_at }}</td>
-<<<<<<< HEAD
-                <td>{{ $item->payment }}</td>
-=======
->>>>>>> 91511074770f8de128e2d90e31eb6cabb46b4555
                 <td>{{ $item->total_price }}</td>
                 @if($item->status == 1)
                 <td> <span class="badge bg-danger">Chưa duyệt</span> </td>
